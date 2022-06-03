@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TalkAppAndroid</string>
+    <string name="login_etUsername">Username</string>
+    <string name="login_etPassword">Password</string>
+    <string name="login_btnLogin">Login</string>
+    <string name="login_tvTalkapp">TalkApp</string>
+    <string name="login_btnSign_in">Sign In</string>
+    <string name="register_etVerify_password">Verify password</string>
+    <string name="register_teUsername">Username</string>
+    <string name="register_etPassword">Password</string>
+    <string name="register_etDisplayname">Displayname</string>
+</resources>

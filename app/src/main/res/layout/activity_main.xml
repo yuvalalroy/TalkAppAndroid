@@ -24,7 +24,21 @@
             android:ems="10"
             android:hint="@string/login_etUsername"
             android:inputType="textPersonName"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/textViewUsernameError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/login_UsernameError"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:textColorHint="@color/red"
+            >
+
+        </TextView>
 
         <EditText
             android:id="@+id/editTextTextPassword"
@@ -35,6 +49,19 @@
             android:inputType="textPassword"
             android:hint="@string/login_etPassword"/>
 
+        <TextView
+            android:id="@+id/textViewPasswordError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/login_PasswordError"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:textColorHint="@color/red"
+            >
+
+        </TextView>
+
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
@@ -42,12 +69,11 @@
             android:text="@string/login_btnLogin"
             android:layout_gravity="center"/>
 
-
     </LinearLayout>
 
     <TextView
-        android:layout_width="157dp"
-        android:layout_height="79dp"
+        android:layout_width="372dp"
+        android:layout_height="68dp"
         android:layout_gravity="center"
         android:fontFamily="@font/dancing_script_bold"
         android:text="@string/login_tvTalkapp"
@@ -55,9 +81,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.286">
+        app:layout_constraintVertical_bias="0.277">
 
     </TextView>
 
@@ -66,12 +93,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:orientation="vertical"
         android:text="@string/login_btnSign_in"
         android:textColor="@android:color/white"
         tools:ignore="MissingConstraints"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="1190dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

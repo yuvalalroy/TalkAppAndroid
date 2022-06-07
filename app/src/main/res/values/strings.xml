@@ -3,10 +3,29 @@
     <string name="login_etUsername">Username</string>
     <string name="login_etPassword">Password</string>
     <string name="login_btnLogin">Login</string>
-    <string name="login_tvTalkapp">TalkApp</string>
+    <string name="login_tvTalkapp">Welcome to TalkApp</string>
     <string name="login_btnSign_in">Sign In</string>
     <string name="register_etVerify_password">Verify password</string>
     <string name="register_teUsername">Username</string>
     <string name="register_etPassword">Password</string>
-    <string name="register_etDisplayname">Displayname</string>
+    <string name="register_etDisplayname">Display name</string>
+    <string name="register_tvRegister">Register</string>
+    <string name="register_btnSignUp">Sign Up</string>
+    <string name="register_btnRegister">Register</string>
+    <string name="login_UsernameError">Username is required!</string>
+    <string name="login_PasswordError">Password is required!</string>
+    <string name="register_verifyPasswordError">Verify password is required!</string>
+    <string name="register_validVerifyPasswordError">Passwords are incompatible!</string>
+    <string name="register_displaynameError">Display name is required!</string>
+    <string name="register_validPasswordError">Password must contain minimum five characters,
+        at least one letter and one number.</string>
+    <string name="add_contactsName">Contact\'s name</string>
+    <string name="Add_ContactsNameError">Contact\'s name is required!</string>
+    <string name="Add_ContactsDisplayName">Contact\'s display name</string>
+    <string name="Add_ContactsDisplaynameError">Contact\'s display name is required!</string>
+    <string name="Add_contactsServer">Contact\'s server</string>
+    <string name="Add_ContactsServerError">Contact\'s server is required!</string>
+    <string name="Add_addButton">Add</string>
+    <string name="Add_GoBack">Go Back</string>
+    <string name="Add_AddNewContact">Add new contact</string>
 </resources>

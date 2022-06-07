@@ -10,6 +10,7 @@
     >
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -26,69 +27,122 @@
             android:inputType="textPersonName"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/UsernameError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/login_UsernameError"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:textColorHint="@color/red"
+            >
+
+        </TextView>
+
         <EditText
             android:id="@+id/editTextTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:ems="10"
+            android:hint="@string/register_etPassword"
             android:inputType="textPassword"
-            android:hint="@string/register_etPassword"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/PasswordError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/login_PasswordError"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:textColorHint="@color/red"
+            >
+
+        </TextView>
 
         <EditText
             android:id="@+id/editTextTextVerifyPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:ems="10"
+            android:hint="@string/register_etVerify_password"
             android:inputType="textPassword"
-            android:hint="@string/register_etVerify_password"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/VerifyPasswordError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/register_verifyPasswordError"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:textColorHint="@color/red"
+            >
+
+        </TextView>
 
         <EditText
             android:id="@+id/editTextTextDisplayname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:ems="10"
+            android:hint="@string/register_etDisplayname"
             android:inputType="textPassword"
-            android:hint="@string/register_etDisplayname"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/DisplayNameError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/register_displaynameError"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:textColorHint="@color/red"
+            >
+
+        </TextView>
 
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_btnLogin"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:text="@string/register_btnRegister" />
 
 
     </LinearLayout>
 
     <TextView
-        android:layout_width="157dp"
-        android:layout_height="79dp"
+        android:layout_width="222dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
         android:fontFamily="@font/dancing_script_bold"
-        android:text="@string/login_tvTalkapp"
-        android:textSize="45sp"
+        android:text="@string/register_tvRegister"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.724"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.286">
+        app:layout_constraintVertical_bias="0.193">
 
     </TextView>
 
     <Button
-        android:id="@+id/btnSignIn"
+        android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:text="@string/login_btnSign_in"
+        android:orientation="vertical"
+        android:text="@string/register_btnSignUp"
         android:textColor="@android:color/white"
         tools:ignore="MissingConstraints"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="1190dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

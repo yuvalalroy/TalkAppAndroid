@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FormNewContact"
+    android:orientation="vertical"
+    android:background="@drawable/backgroundadd"
+    >
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:padding="15dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      >
+
+    <EditText
+        android:id="@+id/editTextContactName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/add_contactsName"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/whiteGrey"
+        android:backgroundTint="@color/whiteGrey"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewContactNameError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/Add_ContactsNameError"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
+        android:visibility="invisible">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/editTextContactDisplayname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/Add_ContactsDisplayName"
+        android:textColorHint="@color/whiteGrey"
+        android:backgroundTint="@color/whiteGrey"
+        android:inputType="text"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewContactsDisplayNameError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/Add_ContactsDisplaynameError"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
+        android:visibility="invisible">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/editTextContactServer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/Add_contactsServer"
+        android:textColorHint="@color/whiteGrey"
+        android:backgroundTint="@color/whiteGrey"
+        android:inputType="text"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewContactsServerError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/Add_ContactsServerError"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
+        android:visibility="invisible">
+
+    </TextView>
+
+  </LinearLayout>
+
+  <TextView
+      android:layout_width="296dp"
+      android:layout_height="69dp"
+      android:layout_gravity="center_vertical"
+      android:fontFamily="@font/dancing_script_bold"
+      android:text="@string/Add_AddNewContact"
+      android:textColor="@color/white"
+      android:textSize="45sp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.573"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.243">
+
+  </TextView>
+
+  <Button
+      android:id="@+id/btnAddContact"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:backgroundTint="@color/lightPurple"
+      android:text="@string/Add_addButton"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.696"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.737" />
+
+  <Button
+      android:id="@+id/btnGoBack"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:backgroundTint="@color/lightPurple"
+      android:text="@string/Add_GoBack"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.339"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.737" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

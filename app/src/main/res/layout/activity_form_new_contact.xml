@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".FormNewContact"
     android:orientation="vertical"
-    android:background="@drawable/backgroundadd"
-    >
+    android:background="@drawable/backgroundd">
+
 
   <LinearLayout
       android:layout_width="match_parent"

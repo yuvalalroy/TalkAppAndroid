@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Add_ContactsNameError"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/darkGrey"
         android:textStyle="bold"
         android:visibility="invisible">
 
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Add_ContactsDisplaynameError"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/darkGrey"
         android:textStyle="bold"
         android:visibility="invisible">
 
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Add_ContactsServerError"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/darkGrey"
         android:textStyle="bold"
         android:visibility="invisible">
 

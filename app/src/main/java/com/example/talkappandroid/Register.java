@@ -117,20 +117,6 @@ public class Register extends AppCompatActivity {
         });
     }
 
-    private void checkIfFieldsEmpty(){
-        if(!eUsername.getText().toString().isEmpty() ||
-                !ePassword.getText().toString().isEmpty() || !eVerifyPassword.getText().toString().isEmpty() || !eDisplayName.getText().toString().isEmpty()){
-            usernameError = (TextView) findViewById(R.id.UsernameError);
-            passwordError = (TextView) findViewById(R.id.PasswordError);
-            verifyPasswordError = (TextView) findViewById(R.id.VerifyPasswordError);
-            displayNameError = (TextView) findViewById(R.id.DisplayNameError);
-            passwordError.setVisibility(TextView.INVISIBLE);
-            usernameError.setVisibility(TextView.INVISIBLE);
-            displayNameError.setVisibility(TextView.INVISIBLE);
-            verifyPasswordError.setVisibility(TextView.INVISIBLE);
-        }
-    }
-
     private boolean validatePassword(String passwordField) {
         if(passwordField.length() < 5)
             return false;
@@ -204,5 +190,19 @@ public class Register extends AppCompatActivity {
 
         }
         return true;
+    }
+
+    private void checkIfFieldsEmpty(){
+        if(!eUsername.getText().toString().isEmpty() ||
+                !ePassword.getText().toString().isEmpty() || !eVerifyPassword.getText().toString().isEmpty() || !eDisplayName.getText().toString().isEmpty()){
+            usernameError = (TextView) findViewById(R.id.UsernameError);
+            passwordError = (TextView) findViewById(R.id.PasswordError);
+            verifyPasswordError = (TextView) findViewById(R.id.VerifyPasswordError);
+            displayNameError = (TextView) findViewById(R.id.DisplayNameError);
+            passwordError.setVisibility(TextView.INVISIBLE);
+            usernameError.setVisibility(TextView.INVISIBLE);
+            displayNameError.setVisibility(TextView.INVISIBLE);
+            verifyPasswordError.setVisibility(TextView.INVISIBLE);
+        }
     }
 }

@@ -62,14 +62,12 @@ public class Login extends AppCompatActivity {
         if (usernameField.isEmpty() || passwordField.isEmpty()) {
             if (usernameField.isEmpty()) {
                 usernameError = (TextView) findViewById(R.id.textViewUsernameError);
-                usernameError.setTextColor(getResources().getColor(R.color.red));
                 usernameError.setVisibility(TextView.VISIBLE);
 //                Toast.makeText(Login.this, "Username is required!", Toast.LENGTH_SHORT).show();
             }
 
             if (passwordField.isEmpty()) {
                 passwordError = (TextView) findViewById(R.id.textViewPasswordError);
-                passwordError.setTextColor(getResources().getColor(R.color.red));
                 passwordError.setVisibility(TextView.VISIBLE);
 //                Toast.makeText(Login.this, "Password is required!", Toast.LENGTH_SHORT).show();
             }
@@ -109,12 +107,7 @@ public class Login extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!eUsername.getText().toString().isEmpty() || !ePassword.getText().toString().isEmpty()){
-                    usernameError = (TextView) findViewById(R.id.textViewUsernameError);
-                    passwordError = (TextView) findViewById(R.id.textViewPasswordError);
-                    passwordError.setVisibility(TextView.INVISIBLE);
-                    usernameError.setVisibility(TextView.INVISIBLE);
-                }
+                clearErrors();
             }
         });
 
@@ -125,14 +118,18 @@ public class Login extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!eUsername.getText().toString().isEmpty() || !ePassword.getText().toString().isEmpty()){
-                    usernameError = (TextView) findViewById(R.id.textViewUsernameError);
-                    passwordError = (TextView) findViewById(R.id.textViewPasswordError);
-                    passwordError.setVisibility(TextView.INVISIBLE);
-                    usernameError.setVisibility(TextView.INVISIBLE);
-                }
+                clearErrors();
             }
         });
 
+    }
+
+    private void clearErrors(){
+        if(!eUsername.getText().toString().isEmpty() || !ePassword.getText().toString().isEmpty()){
+            usernameError = (TextView) findViewById(R.id.textViewUsernameError);
+            passwordError = (TextView) findViewById(R.id.textViewPasswordError);
+            passwordError.setVisibility(TextView.INVISIBLE);
+            usernameError.setVisibility(TextView.INVISIBLE);
+        }
     }
 }

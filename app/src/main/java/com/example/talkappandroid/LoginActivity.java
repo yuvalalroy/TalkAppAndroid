@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class Login extends AppCompatActivity {
+import com.google.firebase.iid.FirebaseInstanceId;
+
+public class LoginActivity extends AppCompatActivity {
 
     private EditText eUsername, ePassword;
     private TextView usernameError, passwordError;
@@ -24,6 +24,10 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bindViews();
         setListeners();
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(LoginActivity.this, instanceIdResult -> {
+            String newToken = instanceIdResult.getToken();
+        });
     }
 
     @Override
@@ -85,7 +89,7 @@ public class Login extends AppCompatActivity {
 
     private void setListeners(){
         btnSignIn.setOnClickListener(v -> {
-            Intent i = new Intent(this, Register.class);
+            Intent i = new Intent(this, RegisterActivity.class);
             startActivity(i);
         });
 
@@ -95,7 +99,7 @@ public class Login extends AppCompatActivity {
 //                startActivity(i);
 //            }
 
-            Intent i = new Intent(this, Contacts.class);
+            Intent i = new Intent(this, ContactsActivity.class);
             startActivity(i);
         });
 

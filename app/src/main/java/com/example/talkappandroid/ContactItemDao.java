@@ -14,16 +14,16 @@ public interface ContactItemDao {
     @Query("SELECT * FROM contactitem")
     List<ContactItem> index();
 
-    @Query("SELECT * FROM contactitem WHERE _id = :id")
+    @Query("SELECT * FROM contactitem WHERE id = :id")
     ContactItem get(int id);
 
     @Insert
-    void insert(ContactItem... posts);
+    void insert(ContactItem... contactItems);
 
     @Update
-    void update(ContactItem... posts);
+    void update(ContactItem... contactItems);
 
     @Delete
-    void delete(ContactItem... posts);
+    void delete(ContactItem... contactItems);
 
 }

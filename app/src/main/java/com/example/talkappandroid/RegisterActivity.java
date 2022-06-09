@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private EditText eUsername, ePassword, eVerifyPassword, eDisplayName;
     private TextView usernameError, passwordError, verifyPasswordError, displayNameError;
@@ -60,7 +60,7 @@ public class Register extends AppCompatActivity {
 
     private void setListeners(){
         btnSignUp.setOnClickListener(v -> {
-            Intent i = new Intent(this, Login.class);
+            Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
         });
 

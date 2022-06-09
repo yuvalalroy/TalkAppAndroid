@@ -8,25 +8,21 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 
 import com.example.talkappandroid.adapters.ContactsListAdapter;
 import com.example.talkappandroid.viewModels.ContactItemViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Contacts extends AppCompatActivity {
+public class ContactsActivity extends AppCompatActivity {
 
-    private AppDB _db;
-    private ContactItemDao _contactItem;
+    private AppDB db;
+    private ContactItemDao contactItemDao;
+    private List<ContactItem> contacts;
     private FloatingActionButton btnAdd;
     private RecyclerView lstContacts;
-    private ContactItemViewModel viewModel;
-    private ContactsListAdapter adapter;
+    private ContactsListAdapter contactsListAdapter;
 
 
     @Override
@@ -34,21 +30,33 @@ public class Contacts extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
-        _db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "FooDB")
-                  .allowMainThreadQueries()
-                  .build();
-        _contactItem = _db.contactItemDao();
+/*        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "ContactsDB")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();*/
+        db = AppDB.getInstance();
+        contactItemDao = db.contactItemDao();
+        contacts = contactItemDao.index();
 
-        bindViews();
-        setListeners();
-        setAdapter();
+        lstContacts = findViewById(R.id.lstContacts);
+        lstContacts.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        contactsListAdapter = new ContactsListAdapter(this, contacts);
+        lstContacts.setAdapter(contactsListAdapter);
 
+        btnAdd = findViewById(R.id.btn_contacts_addContact);
+        btnAdd.setOnClickListener(v -> {
+            Intent i = new Intent(this, FormNewContactActivity.class);
+            startActivity(i);
+        });
 
+//        bindViews();
+//        setListeners();
+//        setAdapter();
 
 //        _contactItems = new ArrayList<>();
 //        adapter = new ArrayAdapter<ContactItem>(this, android.R.layout.simple_gallery_item, _contactItems);
 //
-//        lvContactsItems.setAdapter(adapter);
+ //       lvContactsItems.setAdapter(adapter);
     }
 
     @Override
@@ -78,13 +86,13 @@ public class Contacts extends AppCompatActivity {
     }
 
     private void bindViews(){
-        btnAdd = findViewById(R.id.btnAddContactItem);
+        btnAdd = findViewById(R.id.btn_contacts_addContact);
         lstContacts = findViewById(R.id.lstContacts);
     }
 
     private void setListeners() {
         btnAdd.setOnClickListener(v -> {
-            Intent i = new Intent(this, FormNewContact.class);
+            Intent i = new Intent(this, FormNewContactActivity.class);
             startActivity(i);
         });
 
@@ -97,19 +105,18 @@ public class Contacts extends AppCompatActivity {
     }
 
     private void loadContactItems(){
-//        _contactItems.clear();
-//        _contactItems.addAll(_contactItem.index());
-//        adapter.notifyDataSetChanged();
+        contacts.clear();
+        contacts.addAll(contactItemDao.index());
+        contactsListAdapter.setContactItems(contacts);
+        contactsListAdapter.notifyDataSetChanged();
     }
 
     private void setAdapter(){
-        viewModel = new ViewModelProvider(this).get(ContactItemViewModel.class);
-        ContactsListAdapter adapter = new ContactsListAdapter(this);
-        lstContacts.setAdapter(adapter);
-        lstContacts.setLayoutManager(new LinearLayoutManager(this));
-        viewModel.get().observe(this, contactItems -> {
-            adapter.setContactItems(contactItems);
-        });
+        /*viewModel = new ContactItemViewModel(getApplicationContext());*/
+        ContactItemViewModel viewModel = new ViewModelProvider(this).get(ContactItemViewModel.class);
+        //lstContacts.setAdapter(adapter);
+        //lstContacts.setLayoutManager(new LinearLayoutManager(this));
+        //viewModel.get().observe(this, adapter::setContactItems);
     }
 
 }

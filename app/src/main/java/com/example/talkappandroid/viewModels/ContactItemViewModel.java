@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.talkappandroid.ContactItem;
-import com.example.talkappandroid.Repositories.ContactRepository;
+import com.example.talkappandroid.repositories.ContactRepository;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ public class ContactItemViewModel extends ViewModel {
     private LiveData<List<ContactItem>> contactItems;
 
     public ContactItemViewModel() {
-      mRepository = new ContactRepository();
-      contactItems = mRepository.getAll();
+        mRepository = new ContactRepository();
+        contactItems = mRepository.getAll();
     }
 
     public LiveData<List<ContactItem>> get() { return contactItems;}

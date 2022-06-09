@@ -35,13 +35,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvName"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="6dp"
         android:layout_toEndOf="@drawable/ic_avatar"
         android:ellipsize="end"
-        android:layout_marginEnd="6dp"
-        android:textColor="@color/grey"
         android:maxLines="1"
-        android:layout_marginTop="2dp"
-        />
+        android:textColor="@color/grey" />
 
 
     <TextView
@@ -55,12 +54,12 @@
         android:textColor="@color/grey"
         android:textSize="12sp" />
 
-    <LinearLayout
+<!--    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@drawable/ic_avatar"
         android:layout_marginStart="62dp"
         android:background="?attr/dividerColor"
-        android:orientation="horizontal" />
+        android:orientation="horizontal" />-->
 
 </RelativeLayout>

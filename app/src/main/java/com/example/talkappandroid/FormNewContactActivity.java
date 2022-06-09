@@ -7,15 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class FormNewContact extends AppCompatActivity {
+public class FormNewContactActivity extends AppCompatActivity {
 
     private Button btnGoBack, btnAddContact;
-    private AppDB _db;
+    private AppDB db;
     private ContactItemDao _contactItem;
     private EditText etContactServer, etContactName, etContactDisplayName;
     private TextView contactNameError, contactDNError, contactServerError;
@@ -27,12 +26,15 @@ public class FormNewContact extends AppCompatActivity {
         bindViews();
         setListeners();
 
-        _db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "FooDB")
+        /*db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "FooDB")
                 .allowMainThreadQueries()
-                .build();
-        _contactItem = _db.contactItemDao();
+                .fallbackToDestructiveMigration()
+                .build();*/
+        db = AppDB.getInstance();
+        _contactItem = db.contactItemDao();
 
     }
+
 
     @Override
     protected void onStart() {
@@ -87,7 +89,7 @@ public class FormNewContact extends AppCompatActivity {
         });
 
         btnGoBack.setOnClickListener(v -> {
-            Intent i = new Intent(this, Contacts.class);
+            Intent i = new Intent(this, ContactsActivity.class);
             startActivity(i);
         });
 

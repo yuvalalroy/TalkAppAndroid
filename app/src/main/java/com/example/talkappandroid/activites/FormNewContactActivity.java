@@ -1,7 +1,6 @@
-package com.example.talkappandroid;
+package com.example.talkappandroid.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.talkappandroid.database.AppDB;
+import com.example.talkappandroid.model.ContactItem;
+import com.example.talkappandroid.database.ContactItemDao;
+import com.example.talkappandroid.R;
+
 public class FormNewContactActivity extends AppCompatActivity {
 
     private Button btnGoBack, btnAddContact;
     private AppDB db;
-    private ContactItemDao _contactItem;
+    private ContactItemDao contactItem;
     private EditText etContactServer, etContactName, etContactDisplayName;
     private TextView contactNameError, contactDNError, contactServerError;
 
@@ -25,14 +29,8 @@ public class FormNewContactActivity extends AppCompatActivity {
         setContentView(R.layout.activity_form_new_contact);
         bindViews();
         setListeners();
-
-        /*db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "FooDB")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build();*/
-        db = AppDB.getInstance();
-        _contactItem = db.contactItemDao();
-
+        db = AppDB.getContactDBInstance();
+        contactItem = db.contactItemDao();
     }
 
 
@@ -84,7 +82,7 @@ public class FormNewContactActivity extends AppCompatActivity {
 
             ContactItem contactItem = new ContactItem(0, etContactName.getText().toString(),
                     etContactName.getText().toString(), etContactName.getText().toString());
-            _contactItem.insert(contactItem);
+            this.contactItem.insert(contactItem);
             finish();
         });
 

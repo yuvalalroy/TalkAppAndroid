@@ -1,26 +1,27 @@
 package com.example.talkappandroid.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.talkappandroid.ContactItem;
+import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.R;
 
 import java.util.List;
 
 public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapter.ContactViewHolder> {
 
-    class ContactViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tvName;
-        private final TextView tvLastMessage;
-        private final TextView tvTime;
-        private final ImageView ivPic;
+    public static class ContactViewHolder extends RecyclerView.ViewHolder {
+        private TextView tvName;
+        private TextView tvLastMessage;
+        private TextView tvTime;
+        private ImageView ivPic;
+
 
         private ContactViewHolder(View itemView){
             super(itemView);
@@ -31,15 +32,22 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         }
     }
 
-    private final LayoutInflater mInflater;
+    public interface OnContactClicked {
+        void onContactClicked(int position);
+    }
+
+    private OnContactClicked listener;
     private List<ContactItem> contactItems;
+
+    public void setListener(OnContactClicked listener) {
+        this.listener = listener;
+    }
 
     public void setContactItems(List<ContactItem> items) {
         contactItems = items;
     }
 
-    public ContactsListAdapter(Context context, List<ContactItem> contactItems) {
-        mInflater = LayoutInflater.from(context);
+    public ContactsListAdapter(List<ContactItem> contactItems) {
         this.contactItems = contactItems;
     }
 
@@ -59,18 +67,15 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             holder.tvLastMessage.setText(current.getLastMessage());
             holder.tvTime.setText(current.getLastDate());
             holder.ivPic.setImageResource(current.getAccountPic());
+
+            holder.itemView.setOnClickListener(v -> listener.onContactClicked(position));
         }
 
     }
 
-
     @Override
     public int getItemCount() {
-        if(contactItems != null)
-            return contactItems.size();
         return 0;
     }
-
-    public List<ContactItem> getContactItems(){ return contactItems;}
 
 }

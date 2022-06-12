@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ContactsActivity">
+    tools:context=".activites.ContactsActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
@@ -13,17 +13,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:id="@+id/lstContacts"
-            android:background="@color/grey"/>
+            android:background="@drawable/whitebackground1"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-    <ListView
-        android:id="@+id/lvContactsList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_editor_absoluteX="0dp"
-        app:layout_editor_absoluteY="0dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_contacts_addContact"
@@ -34,7 +27,6 @@
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

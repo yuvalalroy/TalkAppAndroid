@@ -1,4 +1,4 @@
-package com.example.talkappandroid;
+package com.example.talkappandroid.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,16 +10,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.talkappandroid.R;
+import com.example.talkappandroid.activites.LoginActivity;
+import com.example.talkappandroid.database.AppDB;
+import com.example.talkappandroid.database.ContactItemDao;
+import com.example.talkappandroid.database.UserDao;
+import com.example.talkappandroid.model.UserItem;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText eUsername, ePassword, eVerifyPassword, eDisplayName;
     private TextView usernameError, passwordError, verifyPasswordError, displayNameError;
     private Button btnSignUp, btnRegister;
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        setDB();
         bindViews();
         setListeners();
     }
@@ -47,6 +56,11 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+    }
+
+    public  void setDB(){
+        AppDB db = AppDB.getUsersDBInstance();
+        userDao = db.userDao();
     }
 
     private void bindViews(){

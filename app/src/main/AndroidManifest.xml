@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.talkappandroid">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".TalkAppApplication"
@@ -16,29 +16,34 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TalkAppAndroid"
         tools:targetApi="31">
+
         <service
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false"
+            android:permission="TODO">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <activity
-            android:name=".FormNewContactActivity"
-            android:exported="false">
-        </activity>
+            android:name=".activites.ChatActivity"
+            android:theme="@style/AppTheme.Base"
+            android:exported="false" />
         <activity
-            android:name=".ContactsActivity"
-            android:exported="false">
-        </activity>
+            android:name=".activites.FormNewContactActivity"
+            android:label="New contcat"
+            android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
-            android:exported="false">
-        </activity>
+            android:name=".activites.ContactsActivity"
+            android:label="Contacts"
+            android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activites.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activites.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

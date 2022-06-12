@@ -1,6 +1,11 @@
-package com.example.talkappandroid;
+package com.example.talkappandroid.model;
+import android.content.Intent;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.example.talkappandroid.R;
+import com.example.talkappandroid.activites.ChatActivity;
 
 @Entity
 public class ContactItem {
@@ -71,4 +76,5 @@ public class ContactItem {
                 ", _lastDate='" + lastDate + '\'' +
                 '}';
     }
+
 }

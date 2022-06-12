@@ -1,9 +1,9 @@
-package com.example.talkappandroid.API;
+package com.example.talkappandroid.api;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.talkappandroid.ContactItem;
-import com.example.talkappandroid.ContactItemDao;
+import com.example.talkappandroid.model.ContactItem;
+import com.example.talkappandroid.database.ContactItemDao;
 import com.example.talkappandroid.R;
 import com.example.talkappandroid.TalkAppApplication;
 
@@ -22,8 +22,8 @@ public class ContactAPI {
     Retrofit retrofit;
     webServiceAPI webServiceAPI;
 
-    public ContactAPI(MutableLiveData<List<ContactItem>> postListData, ContactItemDao dao) {
-        this.contactListData = postListData;
+    public ContactAPI(MutableLiveData<List<ContactItem>> contactListData, ContactItemDao dao) {
+        this.contactListData = contactListData;
         this.dao = dao;
         retrofit = new Retrofit.Builder()
             .baseUrl(TalkAppApplication.context.getString(R.string.BaseUrl))

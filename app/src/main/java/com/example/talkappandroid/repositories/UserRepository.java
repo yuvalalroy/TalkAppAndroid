@@ -4,30 +4,32 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.talkappandroid.api.ContactAPI;
+import com.example.talkappandroid.api.UserAPI;
 import com.example.talkappandroid.database.AppDB;
-import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.database.ContactItemDao;
+import com.example.talkappandroid.database.UserDao;
+import com.example.talkappandroid.model.ContactItem;
+import com.example.talkappandroid.model.UserItem;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ContactRepository {
+public class UserRepository {
 
-    private ContactAPI api;
-    private ContactItemDao dao;
-    private ContactListData contactListData;
+    private UserAPI api;
+    private UserDao dao;
+    private UserData userData;
 
-    public ContactRepository() {
+    public UserRepository() {
         AppDB db = AppDB.getContactDBInstance();
-        dao = db.contactItemDao();
-        contactListData = new ContactListData();
-        api = new ContactAPI(contactListData, dao);
+        dao = db.userDao();
+        api = new UserAPI(userData, dao);
     }
 
-    class ContactListData extends MutableLiveData<List<ContactItem>> {
-        public ContactListData() {
+    class UserData extends MutableLiveData<UserItem> {
+        public UserData() {
             super();
-            setValue((new LinkedList<>()));
+            setValue(null);
         }
 
         @Override
@@ -35,7 +37,7 @@ public class ContactRepository {
             super.onActive();
 
             new Thread(() -> {
-                contactListData.postValue(dao.index());
+                userData.postValue(dao.get());
             }).start();
 
         }
@@ -43,11 +45,11 @@ public class ContactRepository {
 
     public LiveData<List<ContactItem>> getAll() { return contactListData;}
 
-    public void add(final ContactItem contactItem){
+    public void add(final UserItem userItem){
         //api.add(contactItem);
     }
 
-    public void delete(final ContactItem contactItem){
+    public void delete(final UserItem userItem){
         //api.delete(contactItem);
     }
 

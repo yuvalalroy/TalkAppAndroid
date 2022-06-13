@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/contactsContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/whiteGrey"
+    android:background="@color/white"
     android:paddingStart="12dp"
-    android:paddingEnd="12dp"
     android:paddingTop="12dp"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    android:paddingEnd="12dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivPic"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_avatar"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
-        />
+        android:src="@drawable/ic_avatar" />
+
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
+        android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="108dp"
         android:layout_toStartOf="@id/tvTime"
-        android:layout_toEndOf="@drawable/ic_avatar"
+        android:layout_toEndOf="@id/ivPic"
         android:maxLines="1"
         android:textColor="@color/grey"
         android:textSize="15sp"
@@ -32,35 +32,37 @@
 
     <TextView
         android:id="@+id/tvLastMessage"
-        android:layout_width="wrap_content"
+        android:layout_width="217dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvName"
-        android:layout_toEndOf="@drawable/ic_avatar"
-        android:ellipsize="end"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="6dp"
-        android:textColor="@color/grey"
+        android:layout_marginRight="-265dp"
+        android:layout_toLeftOf="@id/ivPic"
+        android:layout_toEndOf="@id/ivPic"
+        android:ellipsize="end"
         android:maxLines="1"
-        android:layout_marginTop="2dp"
-        />
-
+        android:textColor="@color/grey" />
 
     <TextView
         android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
+        android:layout_width="79dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/tvName"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="3dp"
         android:maxLines="1"
         android:textColor="@color/grey"
         android:textSize="12sp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@drawable/ic_avatar"
-        android:layout_marginStart="62dp"
-        android:background="?attr/dividerColor"
+        android:layout_width="399dp"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/ivPic"
+        android:layout_marginTop="10dp"
+        android:background="@color/grey"
         android:orientation="horizontal" />
 
 </RelativeLayout>

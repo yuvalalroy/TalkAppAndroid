@@ -28,4 +28,8 @@
     <string name="Add_addButton">Add</string>
     <string name="Add_GoBack">Go Back</string>
     <string name="Add_AddNewContact">Add new contact</string>
+    <string name="channel_name">My channel</string>
+    <string name="channel_description">channel</string>
+    <string name="BaseUrl">http://10.0.2.2:7201/api/</string>
+    <string name="type_a_message"><font size="15">  Type a message</font></string>
 </resources>

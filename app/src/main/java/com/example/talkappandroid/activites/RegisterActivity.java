@@ -1,4 +1,4 @@
-package com.example.talkappandroid;
+package com.example.talkappandroid.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,16 +10,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class Register extends AppCompatActivity {
+import com.example.talkappandroid.R;
+import com.example.talkappandroid.activites.LoginActivity;
+import com.example.talkappandroid.database.AppDB;
+import com.example.talkappandroid.database.ContactItemDao;
+import com.example.talkappandroid.database.UserDao;
+import com.example.talkappandroid.model.UserItem;
+
+public class RegisterActivity extends AppCompatActivity {
 
     private EditText eUsername, ePassword, eVerifyPassword, eDisplayName;
     private TextView usernameError, passwordError, verifyPasswordError, displayNameError;
     private Button btnSignUp, btnRegister;
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        setDB();
         bindViews();
         setListeners();
     }
@@ -49,6 +58,11 @@ public class Register extends AppCompatActivity {
         super.onRestart();
     }
 
+    public  void setDB(){
+        AppDB db = AppDB.getUsersDBInstance();
+        userDao = db.userDao();
+    }
+
     private void bindViews(){
         btnSignUp = findViewById(R.id.btnSignUp);
         btnRegister = findViewById(R.id.btnRegister);
@@ -60,7 +74,7 @@ public class Register extends AppCompatActivity {
 
     private void setListeners(){
         btnSignUp.setOnClickListener(v -> {
-            Intent i = new Intent(this, Login.class);
+            Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
         });
 

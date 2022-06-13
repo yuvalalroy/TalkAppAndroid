@@ -1,26 +1,27 @@
-package com.example.talkappandroid.Repositories;
+package com.example.talkappandroid.repositories;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.room.Room;
 
-import com.example.talkappandroid.AppDB;
-import com.example.talkappandroid.ContactItem;
-import com.example.talkappandroid.ContactItemDao;
-import com.example.talkappandroid.ContactItemDao_Impl;
+import com.example.talkappandroid.api.ContactAPI;
+import com.example.talkappandroid.database.AppDB;
+import com.example.talkappandroid.model.ContactItem;
+import com.example.talkappandroid.database.ContactItemDao;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ContactRepository {
 
-    private AppDB db;
+    private ContactAPI api;
     private ContactItemDao dao;
     private ContactListData contactListData;
 
     public ContactRepository() {
-        contactListData = new ContactListData();
+        AppDB db = AppDB.getContactDBInstance();
         dao = db.contactItemDao();
+        contactListData = new ContactListData();
+        api = new ContactAPI(contactListData, dao);
     }
 
     class ContactListData extends MutableLiveData<List<ContactItem>> {
@@ -36,6 +37,7 @@ public class ContactRepository {
             new Thread(() -> {
                 contactListData.postValue(dao.index());
             }).start();
+
         }
     }
 

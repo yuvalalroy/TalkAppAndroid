@@ -1,28 +1,27 @@
 package com.example.talkappandroid.adapters;
 
-import android.content.Context;
-import android.os.TestLooperManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.talkappandroid.ContactItem;
+import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.R;
 
 import java.util.List;
 
 public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapter.ContactViewHolder> {
 
-    class ContactViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tvName;
-        private final TextView tvLastMessage;
-        private final TextView tvTime;
-        private final ImageView ivPic;
+    public static class ContactViewHolder extends RecyclerView.ViewHolder {
+        private TextView tvName;
+        private TextView tvLastMessage;
+        private TextView tvTime;
+        private ImageView ivPic;
+
 
         private ContactViewHolder(View itemView){
             super(itemView);
@@ -33,41 +32,50 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         }
     }
 
-    private final LayoutInflater mInflater;
+    public interface OnContactClicked {
+        void onContactClicked(int position);
+    }
+
+    private OnContactClicked listener;
     private List<ContactItem> contactItems;
 
-    public ContactsListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
+    public void setListener(OnContactClicked listener) {
+        this.listener = listener;
+    }
+
+    public void setContactItems(List<ContactItem> items) {
+        contactItems = items;
+    }
+
+    public ContactsListAdapter(List<ContactItem> contactItems) {
+        this.contactItems = contactItems;
+    }
 
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.activity_contacts_item, parent, false);
+        /*View itemView = mInflater.inflate(R.layout.activity_contacts_item, parent, false);*/
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_contacts_item,
+                parent, false);
         return new ContactViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ContactViewHolder holder, int position) {
         if(contactItems != null){
-            final ContactItem current = contactItems.get(position);
-            holder.tvName.setText(current.get_name());
-            holder.tvLastMessage.setText(current.get_lastMessage());
-            holder.tvTime.setText(current.get_lastDate());
-            holder.ivPic.setImageResource(current.get_accountPic());
+            ContactItem current = contactItems.get(position);
+            holder.tvName.setText(current.getName());
+            holder.tvLastMessage.setText(current.getLastMessage());
+            holder.tvTime.setText(current.getLastDate());
+            holder.ivPic.setImageResource(current.getAccountPic());
+
+            holder.itemView.setOnClickListener(v -> listener.onContactClicked(position));
         }
 
     }
 
-    public void setContactItems(List<ContactItem> c){
-        contactItems = c;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
-        if(contactItems != null)
-            return contactItems.size();
         return 0;
     }
-
-    public List<ContactItem> getContactItems(){ return contactItems;}
 
 }

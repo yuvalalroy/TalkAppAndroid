@@ -10,17 +10,17 @@ import com.example.talkappandroid.TalkAppApplication;
 import java.util.List;
 
 import retrofit2.Call;
-
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class ContactAPI {
     private MutableLiveData<List<ContactItem>> contactListData;
     private ContactItemDao dao;
     Retrofit retrofit;
-    webServiceAPI webServiceAPI;
+    ContactServiceAPI webServiceAPI;
 
     public ContactAPI(MutableLiveData<List<ContactItem>> contactListData, ContactItemDao dao) {
         this.contactListData = contactListData;
@@ -29,7 +29,7 @@ public class ContactAPI {
             .baseUrl(TalkAppApplication.context.getString(R.string.BaseUrl))
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-        webServiceAPI = retrofit.create(webServiceAPI.class);
+        webServiceAPI = retrofit.create(ContactServiceAPI.class);
     }
 
     public ContactAPI() {

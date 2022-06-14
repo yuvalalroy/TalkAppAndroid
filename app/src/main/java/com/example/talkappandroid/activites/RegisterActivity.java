@@ -1,6 +1,7 @@
 package com.example.talkappandroid.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +10,18 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.talkappandroid.R;
 import com.example.talkappandroid.activites.LoginActivity;
 import com.example.talkappandroid.database.AppDB;
 import com.example.talkappandroid.database.ContactItemDao;
 import com.example.talkappandroid.database.UserDao;
+import com.example.talkappandroid.database.UserTokenDB;
 import com.example.talkappandroid.model.UserItem;
+import com.example.talkappandroid.model.UserRegister;
+import com.example.talkappandroid.repositories.UserRepository;
+import com.example.talkappandroid.viewModels.UserViewModel;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -31,31 +37,6 @@ public class RegisterActivity extends AppCompatActivity {
         setDB();
         bindViews();
         setListeners();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
     }
 
     public  void setDB(){
@@ -79,56 +60,29 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         btnRegister.setOnClickListener(v -> {
-            if(validate(eUsername.getText().toString(), ePassword.getText().toString(),
-                    eVerifyPassword.getText().toString(), eDisplayName.getText().toString())){
-                //Intent i = new Intent(this, Chat.class);
-                //startActivity(i);
+            String username = eUsername.getText().toString();
+            String password = ePassword.getText().toString();
+            String verifyPassword = eVerifyPassword.getText().toString();
+            String displayName = eDisplayName.getText().toString();
+
+            if(validate(username, password, verifyPassword, displayName)){
+                UserRepository userRepository = new UserRepository();
+                UserViewModel userViewModel = new UserViewModel(userRepository);
+                UserItem userItem = new UserItem(username, password, displayName);
+                userViewModel.register(userItem);
+                userViewModel.checkIfLoggedIn().observe(this, answer -> {
+                    if (answer) {
+                        Intent i = new Intent(this, LoginActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Either user exists or server is not responsive.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
-        eUsername.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {}
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkIfFieldsEmpty();
-            }
-        });
-
-        ePassword.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {}
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkIfFieldsEmpty();
-            }
-        });
-
-        eVerifyPassword.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {}
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkIfFieldsEmpty();
-            }
-        });
-
-        eDisplayName.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {}
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkIfFieldsEmpty();
-            }
-        });
+        removeErrors();
     }
 
     private boolean validatePassword(String passwordField) {
@@ -143,25 +97,26 @@ public class RegisterActivity extends AppCompatActivity {
                 countLetters++;
             if(Character.isDigit(c))
                 countDigits++;
-            if(countDigits == 1 && countLetters == 1)
+            if(countDigits > 1 && countLetters > 1)
                 return true;
         }
         return false;
     }
 
-    private boolean validate(String usernameField, String passwordField,
-                             String verifyPasswordField, String displayNameField) {
+    private boolean validate(String usernameField, String passwordField, String verifyPasswordField,
+                             String displayNameField) {
+
         if (usernameField.isEmpty() || passwordField.isEmpty() || verifyPasswordField.isEmpty()
                 || displayNameField.isEmpty()) {
             if (usernameField.isEmpty()) {
-                usernameError = (TextView) findViewById(R.id.UsernameError);
+                usernameError = findViewById(R.id.UsernameError);
                 usernameError.setTextColor(getResources().getColor(R.color.red));
                 usernameError.setVisibility(TextView.VISIBLE);
 //                Toast.makeText(Login.this, "Username is required!", Toast.LENGTH_SHORT).show();
             }
 
             if (passwordField.isEmpty()) {
-                passwordError = (TextView) findViewById(R.id.PasswordError);
+                passwordError = findViewById(R.id.PasswordError);
                 passwordError.setText(getResources().getString(R.string.login_PasswordError));
                 passwordError.setTextColor(getResources().getColor(R.color.red));
                 passwordError.setVisibility(TextView.VISIBLE);
@@ -184,9 +139,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
             return false;
         } else {
-            //check if user already exists in firebase - we will write a function to verify
-            // if does not exists go to next if
-            // else show message that username does already exits
             if(!validatePassword(passwordField)){
                 passwordError = (TextView) findViewById(R.id.PasswordError);
                 passwordError.setTextColor(getResources().getColor(R.color.black));
@@ -200,19 +152,59 @@ public class RegisterActivity extends AppCompatActivity {
                 verifyPasswordError.setTextColor(getResources().getColor(R.color.red));
                 verifyPasswordError.setText(getResources().getString(R.string.register_validVerifyPasswordError));
                 verifyPasswordError.setVisibility(TextView.VISIBLE);
+                return false;
             }
 
+            String token = UserTokenDB.getToken();
+            if(UserTokenDB.getFromEditor(token) != null){
+                Toast.makeText(RegisterActivity.this, "User already exists. Please login", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
         return true;
+    }
+
+    private void removeErrors() {
+        eUsername.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkIfFieldsEmpty();
+            }
+        });
+
+        ePassword.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkIfFieldsEmpty();
+            }
+        });
+
+        eVerifyPassword.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkIfFieldsEmpty();
+            }
+        });
+
+        eDisplayName.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkIfFieldsEmpty();
+            }
+        });
     }
 
     private void checkIfFieldsEmpty(){
         if(!eUsername.getText().toString().isEmpty() ||
                 !ePassword.getText().toString().isEmpty() || !eVerifyPassword.getText().toString().isEmpty() || !eDisplayName.getText().toString().isEmpty()){
-            usernameError = (TextView) findViewById(R.id.UsernameError);
-            passwordError = (TextView) findViewById(R.id.PasswordError);
-            verifyPasswordError = (TextView) findViewById(R.id.VerifyPasswordError);
-            displayNameError = (TextView) findViewById(R.id.DisplayNameError);
+            usernameError = findViewById(R.id.UsernameError);
+            passwordError = findViewById(R.id.PasswordError);
+            verifyPasswordError = findViewById(R.id.VerifyPasswordError);
+            displayNameError = findViewById(R.id.DisplayNameError);
             passwordError.setVisibility(TextView.INVISIBLE);
             usernameError.setVisibility(TextView.INVISIBLE);
             displayNameError.setVisibility(TextView.INVISIBLE);

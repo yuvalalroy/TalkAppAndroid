@@ -1,31 +1,47 @@
 package com.example.talkappandroid.viewModels;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.model.UserItem;
-import com.example.talkappandroid.repositories.ContactRepository;
+import com.example.talkappandroid.model.UserLogin;
+import com.example.talkappandroid.model.UserRegister;
 import com.example.talkappandroid.repositories.UserRepository;
-
-import java.util.List;
 
 
 public class UserViewModel extends ViewModel {
-    private UserRepository mRepository;
+    private final MutableLiveData<Boolean> isLoggedIn;
+    private final MutableLiveData<UserItem> currentUser;
+    private UserRepository userRepository;
     private UserItem user;
 
-    public UserViewModel() {
-        mRepository = new UserRepository();
+    public UserViewModel(UserRepository userRepository) {
+        this.userRepository = userRepository;
+        this.isLoggedIn = new MutableLiveData<>();
+        this.currentUser = new MutableLiveData<>();
     }
 
-    public UserItem get() { return user;}
+    public void login(UserLogin loginUser) {
+        userRepository.login(loginUser, isLoggedIn);
+    }
 
-    public void add(UserItem user) { mRepository.add(user);}
+    public void register(UserItem registerUser) {
+        userRepository.register(registerUser, isLoggedIn);
+    }
 
-    public void delete(UserItem user) { mRepository.delete(contact);}
+    public LiveData<Boolean> checkIfLoggedIn() {
+        return isLoggedIn;
+    }
 
-    public void reload() { mRepository.reload();}
+//
+//    public UserItem get() { return user;}
+//
+//    public void add(UserItem user) { userRepository.add(user);}
+//
+//    public void delete(UserItem user) { userRepository.delete(user);}
+//
+//    public void reload() { userRepository.reload();}
 
-    public void updateContactList(UserItem user) { contactItems = (LiveData<List<ContactItem>>) items; }
+    //public void updateContactList(UserItem user) { contactItems = (LiveData<List<ContactItem>>) items; }
 }

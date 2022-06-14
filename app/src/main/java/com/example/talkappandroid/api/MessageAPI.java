@@ -4,9 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.talkappandroid.R;
 import com.example.talkappandroid.TalkAppApplication;
-import com.example.talkappandroid.database.ContactItemDao;
 import com.example.talkappandroid.database.MessageItemDao;
-import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.model.MessageItem;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public class MessageAPI {
     private MutableLiveData<List<MessageItem>> messageListData;
     private MessageItemDao dao;
     Retrofit retrofit;
-    webServiceAPI webServiceAPI;
+    ContactServiceAPI webServiceAPI;
 
     public MessageAPI(MutableLiveData<List<MessageItem>> postListData, MessageItemDao dao) {
         this.messageListData = postListData;
@@ -30,7 +28,7 @@ public class MessageAPI {
             .baseUrl(TalkAppApplication.context.getString(R.string.BaseUrl))
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-        webServiceAPI = retrofit.create(webServiceAPI.class);
+        webServiceAPI = retrofit.create(ContactServiceAPI.class);
     }
 
     public MessageAPI() {

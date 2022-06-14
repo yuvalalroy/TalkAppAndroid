@@ -45,13 +45,5 @@ public class MessageItem {
     }
 
 
-    @Override
-    public String toString() {
-        return "MessageItem{" +
-                "_id=" + id +
-                ", _content='" + content + '\'' +
-                ", _time='" + created + '\'' +
-                '}';
-    }
 
 }

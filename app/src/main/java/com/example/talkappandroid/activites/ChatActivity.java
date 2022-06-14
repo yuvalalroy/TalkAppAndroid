@@ -17,6 +17,7 @@ import com.example.talkappandroid.adapters.MessagesListAdapter;
 import com.example.talkappandroid.database.AppDB;
 import com.example.talkappandroid.database.ContactItemDao;
 import com.example.talkappandroid.database.MessageItemDao;
+import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.model.MessageItem;
 import com.example.talkappandroid.viewModels.MessageItemViewModel;
 
@@ -86,8 +87,11 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void setTextView() {
-        contactName.setText("Yuval");
-        lastSeen.setText("Active now");
+        Bundle bundle = getIntent().getExtras();
+        int position = bundle.getInt("Position");
+        ContactItem currentContact = contactItemDao.get(position);
+        contactName.setText(currentContact.getName());
+        lastSeen.setText(currentContact.getLastDate());
     }
 
     private void setAdapter(){

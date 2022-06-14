@@ -1,68 +1,60 @@
 package com.example.talkappandroid.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import com.example.talkappandroid.R;
-
-import java.util.List;
 
 @Entity
 public class UserItem {
 
-    @PrimaryKey(autoGenerate=true)
-    private String UserName;
-    private String Password;
-    private String DisplayName;
-    private List<ContactItem> Contacts;
-    private String Token;
-    private int ProfilePic;
+    @PrimaryKey
+    @NonNull
+    private String userName;
+    private String password;
+    private String displayName;
+    private String profilePic;
 
     public UserItem() {}
 
     public UserItem(String name, String password, String displayName) {
-        this.UserName = name;
-        this.Password = password;
-        this.DisplayName = displayName;
-        this.ProfilePic = R.drawable.ic_avatar;
-        this.Contacts = null;
-        this.Token = null;
+        this.userName = name;
+        this.password = password;
+        this.displayName = displayName;
+        this.profilePic = null;
     }
 
-    public int getProfilePic() {
-        return ProfilePic;
+    public String getProfilePic() {
+        return profilePic;
     }
 
-    public void setProfilePic(int profilePic) {
-        this.ProfilePic = profilePic;
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        this.UserName = userName;
+        this.userName = userName;
     }
 
-    public String getDisplayName() { return DisplayName; }
+    public String getDisplayName() { return displayName; }
 
-    public String getPassword() { return Password; }
+    public String getPassword() { return password; }
 
-    public void setDisplayName(String displayName) { this.DisplayName = displayName; }
+    public void setDisplayName(String displayName) { this.displayName = displayName; }
 
-    public void setPassword(String password) { this.Password = password; }
+    public void setPassword(String password) { this.password = password; }
 
-    public String getToken() { return this.Token; }
-
-    public void setToken(String token) { this.Token = token; }
 
     @Override
     public String toString() {
         return "UserItem{" +
-                ", UserName='" + UserName + '\'' +
-                ", Password='" + Password + '\'' +
-                ", DisplayName='" + DisplayName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", profilePic='" + profilePic + '\'' +
                 '}';
     }
 

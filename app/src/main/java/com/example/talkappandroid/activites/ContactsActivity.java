@@ -94,6 +94,7 @@ public class ContactsActivity extends AppCompatActivity implements ContactsListA
     public void onContactClicked(int position) {
         /*contacts.get(position);*/
         Intent i = new Intent(this, ChatActivity.class);
+        i.putExtra("Position", position);
         startActivity(i);
     }
 

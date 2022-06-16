@@ -3,13 +3,11 @@ package com.example.talkappandroid.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.talkappandroid.R;
-import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.model.MessageItem;
 
 import java.util.List;
@@ -41,7 +39,7 @@ public class MessagesListAdapter extends RecyclerView.Adapter<MessagesListAdapte
 
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_message_item,
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_message_right,
                 parent, false);
         return new MessageViewHolder(itemView);
     }

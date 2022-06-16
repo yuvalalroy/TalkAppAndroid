@@ -5,6 +5,7 @@ import com.example.talkappandroid.model.MessageItem;
 import com.example.talkappandroid.model.UserItem;
 import com.example.talkappandroid.model.UserLogin;
 import com.example.talkappandroid.model.UserRegister;
+import com.example.talkappandroid.model.UserToken;
 
 import java.util.List;
 
@@ -19,8 +20,8 @@ public interface UserServiceAPI {
 //    Call<UserItem> getUser();
 
     @POST("Users/register")
-    Call<String> registerPostUser(@Body UserItem user);
+    Call<UserToken> registerPostUser(@Body UserItem user);
 
     @POST("Users/login")
-    Call<String> loginPostUser(@Body UserLogin user);
+    Call<UserToken> loginPostUser(@Body UserLogin user);
 }

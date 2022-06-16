@@ -81,7 +81,7 @@ public class FormNewContactActivity extends AppCompatActivity {
 //            }
 
             ContactItem contactItem = new ContactItem(0, etContactName.getText().toString(),
-                    etContactName.getText().toString(), etContactName.getText().toString());
+                    etContactDisplayName.getText().toString(), null, null, etContactServer.getText().toString());
             this.contactItem.insert(contactItem);
             finish();
         });

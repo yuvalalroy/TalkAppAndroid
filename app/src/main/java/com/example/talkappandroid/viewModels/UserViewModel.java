@@ -13,7 +13,7 @@ import com.example.talkappandroid.repositories.UserRepository;
 public class UserViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isLoggedIn;
     private final MutableLiveData<UserItem> currentUser;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private UserItem user;
 
     public UserViewModel(UserRepository userRepository) {

@@ -29,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView usernameError, passwordError, verifyPasswordError, displayNameError;
     private Button btnSignUp, btnRegister;
     private UserDao userDao;
+    private String server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,13 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         setDB();
         bindViews();
+        setServer();
         setListeners();
+    }
+
+    private void setServer() {
+        Bundle bundle = getIntent().getExtras();
+        server = bundle.getString("defaultServer");
     }
 
     public  void setDB(){

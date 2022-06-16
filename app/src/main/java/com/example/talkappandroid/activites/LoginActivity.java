@@ -14,52 +14,29 @@ import android.widget.Toast;
 import com.example.talkappandroid.R;
 import com.example.talkappandroid.database.UserTokenDB;
 import com.example.talkappandroid.model.UserLogin;
-import com.example.talkappandroid.model.UserRegister;
 import com.example.talkappandroid.repositories.UserRepository;
 import com.example.talkappandroid.viewModels.UserViewModel;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText eUsername, ePassword;
     private TextView usernameError, passwordError;
     private Button btnSignIn, btnLogin;
+    private String server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         bindViews();
+        setServer();
         setListeners();
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(LoginActivity.this, instanceIdResult -> {
-            String newToken = instanceIdResult.getToken();
-        });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
+    private void setServer() {
+        Bundle bundle = getIntent().getExtras();
+        server = bundle.getString("defaultServer");
     }
 
     private void bindViews(){
@@ -69,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         ePassword = findViewById(R.id.editTextTextPassword);
     }
 
-    private boolean validate(String username, String password) {
+    private void validate(String username, String password) {
         if (username.isEmpty() || password.isEmpty()) {
             if (username.isEmpty()) {
                 usernameError = (TextView) findViewById(R.id.textViewUsernameError);
@@ -82,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 passwordError.setVisibility(TextView.VISIBLE);
 //                Toast.makeText(Login.this, "Password is required!", Toast.LENGTH_SHORT).show();
             }
-            return false;
+            return;
         }
 
         UserRepository userRepository = new UserRepository();
@@ -99,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "User does not exists or server is not responsive.", Toast.LENGTH_SHORT).show();
             }
         });
-        return true;
     }
 
     private void setListeners(){
@@ -109,11 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         btnLogin.setOnClickListener(v -> {
-            if(validate(eUsername.getText().toString(), ePassword.getText().toString())){
-                Intent i = new Intent(this, ContactsActivity.class);
-                startActivity(i);
-            }
-
+            validate(eUsername.getText().toString(), ePassword.getText().toString());
         });
 
 

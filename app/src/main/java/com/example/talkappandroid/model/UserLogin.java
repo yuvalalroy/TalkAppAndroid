@@ -9,14 +9,14 @@ import com.example.talkappandroid.R;
 public class UserLogin {
 
     @PrimaryKey(autoGenerate=true)
-    private String UserName;
-    private String Password;
+    private String userName;
+    private String password;
 
     public UserLogin() {}
 
     public UserLogin(String name, String password) {
-        this.UserName = name;
-        this.Password = password;
+        this.userName = name;
+        this.password = password;
     }
 
 }

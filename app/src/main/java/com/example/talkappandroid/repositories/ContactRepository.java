@@ -1,9 +1,11 @@
 package com.example.talkappandroid.repositories;
 
-import androidx.lifecycle.LiveData;
+import android.view.ContextThemeWrapper;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.talkappandroid.api.ContactAPI;
+import com.example.talkappandroid.api.UserAPI;
 import com.example.talkappandroid.database.AppDB;
 import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.database.ContactItemDao;
@@ -13,35 +15,37 @@ import java.util.List;
 
 public class ContactRepository {
 
-    private ContactAPI api;
-    private ContactItemDao dao;
-    private ContactListData contactListData;
+    private final ContactAPI contactsApi;
+    private final ContactItemDao dao;
+    private final ContactListData contactListData;
 
-    public ContactRepository() {
+    public ContactRepository(ContactAPI contactsApi) {
         AppDB db = AppDB.getContactDBInstance();
-        dao = db.contactItemDao();
-        contactListData = new ContactListData();
-        api = new ContactAPI(contactListData, dao);
+        this.dao = db.contactItemDao();
+        this.contactsApi = contactsApi;
+        this.contactListData = new ContactListData();
     }
 
     class ContactListData extends MutableLiveData<List<ContactItem>> {
         public ContactListData() {
             super();
-            setValue((new LinkedList<>()));
+            contactsApi.getContacts(dao);
+            new Thread(() -> {
+                postValue(dao.getAllContacts());
+            }).start();
+            setValue(new LinkedList<>());
         }
 
         @Override
         public void onActive() {
             super.onActive();
-
             new Thread(() -> {
-                contactListData.postValue(dao.index());
+                contactListData.postValue(dao.getAllContacts());
             }).start();
-
         }
     }
 
-    public LiveData<List<ContactItem>> getAll() { return contactListData;}
+    public ContactListData getContacts() { return contactListData; }
 
     public void add(final ContactItem contactItem){
         //api.add(contactItem);
@@ -50,10 +54,4 @@ public class ContactRepository {
     public void delete(final ContactItem contactItem){
         //api.delete(contactItem);
     }
-
-    public void reload(){
-        //api.get();
-    }
-
-
 }

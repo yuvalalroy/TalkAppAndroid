@@ -15,13 +15,16 @@ import java.util.List;
 public interface ContactItemDao {
 
     @Query("SELECT * FROM contactitem")
-    List<ContactItem> index();
+    List<ContactItem> getAllContacts();
 
     @Query("SELECT * FROM contactitem WHERE id = :id")
     ContactItem get(int id);
 
     @Insert
     void insert(ContactItem... contactItems);
+
+    @Insert
+    void insertAll(List<ContactItem> contactItems);
 
     @Update
     void update(ContactItem... contactItems);

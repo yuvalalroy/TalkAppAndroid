@@ -18,8 +18,14 @@
         <entry key="..\:/Users/97254/AndroidStudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_message_item.xml" value="0.17447916666666666" />
         <entry key="..\:/Users/97254/AndroidStudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_register.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/97254/AndroidStudioProjects/TalkAppAndroid/app/src/main/res/layout/recyclerview_item.xml" value="0.16666666666666666" />
-        <entry key="..\:/Users/lenovo/StudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/Users/lenovo/StudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_register.xml" value="0.4" />
+        <entry key="..\:/Users/lenovo/StudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_chat.xml" value="0.22708333333333333" />
+        <entry key="..\:/Users/lenovo/StudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_contacts.xml" value="0.1" />
+        <entry key="..\:/Users/lenovo/StudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_contacts_item.xml" value="0.22708333333333333" />
+        <entry key="..\:/Users/lenovo/StudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_form_new_contact.xml" value="0.264" />
+        <entry key="..\:/Users/lenovo/StudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_login.xml" value="0.22708333333333333" />
+        <entry key="..\:/Users/lenovo/StudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/lenovo/StudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/Users/lenovo/StudioProjects/TalkAppAndroid/app/src/main/res/layout/activity_settings.xml" value="0.264" />
       </map>
     </option>
   </component>

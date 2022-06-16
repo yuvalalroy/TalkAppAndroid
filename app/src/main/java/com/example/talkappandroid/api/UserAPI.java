@@ -1,6 +1,7 @@
 package com.example.talkappandroid.api;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -12,6 +13,7 @@ import com.example.talkappandroid.database.UserTokenDB;
 import com.example.talkappandroid.model.UserItem;
 import com.example.talkappandroid.model.UserLogin;
 import com.example.talkappandroid.model.UserRegister;
+import com.example.talkappandroid.model.UserToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -24,7 +26,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserAPI {
-    private static UserDao dao;
     private static UserAPI userApi;
     private Retrofit retrofit;
     private UserServiceAPI userServiceAPI;
@@ -33,8 +34,7 @@ public class UserAPI {
 
 
 
-    private UserAPI(UserDao dao) {
-        UserAPI.dao = dao;
+    private UserAPI() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
@@ -45,44 +45,43 @@ public class UserAPI {
         userTokenDB = UserTokenDB.getInstance();
     }
 
-    public static UserAPI getInstance(UserDao dao) {
+    public static UserAPI getInstance() {
         if (userApi == null) {
-            userApi = new UserAPI(dao);
+            userApi = new UserAPI();
         }
         return userApi;
     }
 
     public void postRegister(UserItem postUser, MutableLiveData<Boolean> isLoggedIn) {
-        Call<String> registerCall = this.userServiceAPI.registerPostUser(postUser);
-        registerCall.enqueue(new Callback<String>() {
+        Call<UserToken> registerCall = this.userServiceAPI.registerPostUser(postUser);
+        registerCall.enqueue(new Callback<UserToken>() {
             @Override
-            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+            public void onResponse(@NonNull Call<UserToken> call, @NonNull Response<UserToken> response) {
                 if(response.isSuccessful()){
-                    String token = response.body();
-                    dao.insert(postUser);
-                    userTokenDB.insertToEditor(postUser, token);
+                    UserToken userToken = response.body();
+                    userTokenDB.insertToEditor(postUser, userToken.getToken());
                     isLoggedIn.postValue(true);
                 }
                 else
                     isLoggedIn.postValue(false);
             }
             @Override
-            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<UserToken> call, @NonNull Throwable t) {
                 isLoggedIn.postValue(false);
             }});
     }
 
     public void postLogin(UserLogin loginUser, MutableLiveData<Boolean> isLoggedIn) {
-        Call<String> loginCall = userServiceAPI.loginPostUser(loginUser);
-        loginCall.enqueue(new Callback<String>() {
+        Call<UserToken> loginCall = this.userServiceAPI.loginPostUser(loginUser);
+        loginCall.enqueue(new Callback<UserToken>() {
             @Override
-            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+            public void onResponse(@NonNull Call<UserToken> call, @NonNull Response<UserToken> response) {
                 if (response.isSuccessful()) {
-                    String token = response.body();
-                    if (Objects.equals(token, "Wrong password") || Objects.equals(token, "User does not exists"))
+                    UserToken userToken = response.body();
+                    if (Objects.equals(userToken.getToken(), "Wrong password") || Objects.equals(userToken.getToken(), "User does not exists"))
                         isLoggedIn.postValue(false);
                     else {
-                        UserTokenDB.setToken(token);
+                        UserTokenDB.setToken(userToken.getToken());
                         //currentUser.postValue(userTokenDB.getFromEditor(token));
                         isLoggedIn.postValue(true);
                     }
@@ -93,7 +92,7 @@ public class UserAPI {
             }
 
             @Override
-            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<UserToken> call, @NonNull Throwable t) {
                 isLoggedIn.postValue(false);
             }
         });

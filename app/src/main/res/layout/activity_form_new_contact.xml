@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activites.FormNewContactActivity"
     android:orientation="vertical"
-    android:background="@drawable/backgroundd">
+    android:background="@drawable/pink_background">
 
 
   <LinearLayout
@@ -25,8 +25,8 @@
         android:ems="10"
         android:hint="@string/add_contactsName"
         android:inputType="textPersonName"
-        android:textColorHint="@color/whiteGrey"
-        android:backgroundTint="@color/whiteGrey"
+        android:textColorHint="@color/darkDarkGrey"
+        android:backgroundTint="@color/darkDarkGrey"
         android:textStyle="bold" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Add_ContactsNameError"
-        android:textColorHint="@color/darkGrey"
+        android:textColorHint="@color/red"
         android:textStyle="bold"
         android:visibility="invisible">
 
@@ -47,8 +47,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Add_ContactsDisplayName"
-        android:textColorHint="@color/whiteGrey"
-        android:backgroundTint="@color/whiteGrey"
+        android:textColorHint="@color/darkDarkGrey"
+        android:backgroundTint="@color/darkDarkGrey"
         android:inputType="text"
         android:textStyle="bold" />
 
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Add_ContactsDisplaynameError"
-        android:textColorHint="@color/darkGrey"
+        android:textColorHint="@color/red"
         android:textStyle="bold"
         android:visibility="invisible">
 
@@ -70,8 +70,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Add_contactsServer"
-        android:textColorHint="@color/whiteGrey"
-        android:backgroundTint="@color/whiteGrey"
+        android:textColorHint="@color/darkDarkGrey"
+        android:backgroundTint="@color/darkDarkGrey"
         android:inputType="text"
         android:textStyle="bold" />
 
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Add_ContactsServerError"
-        android:textColorHint="@color/darkGrey"
+        android:textColorHint="@color/red"
         android:textStyle="bold"
         android:visibility="invisible">
 
@@ -95,7 +95,7 @@
       android:layout_gravity="center_vertical"
       android:fontFamily="@font/dancing_script_bold"
       android:text="@string/Add_AddNewContact"
-      android:textColor="@color/white"
+      android:textColor="@color/darkDarkGrey"
       android:textSize="45sp"
       android:textStyle="bold"
       app:layout_constraintBottom_toBottomOf="parent"
@@ -109,28 +109,29 @@
 
   <Button
       android:id="@+id/btnAddContact"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="113dp"
+      android:layout_height="48dp"
       android:layout_gravity="center_horizontal"
-      android:backgroundTint="@color/lightPurple"
+      android:layout_marginEnd="20dp"
+      android:backgroundTint="@color/babyBlue"
       android:text="@string/Add_addButton"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.696"
+      app:layout_constraintHorizontal_bias="0.78"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="0.737" />
 
   <Button
       android:id="@+id/btnGoBack"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="113dp"
+      android:layout_height="48dp"
       android:layout_gravity="center_horizontal"
-      android:backgroundTint="@color/lightPurple"
+      android:backgroundTint="@color/babyRed"
       android:text="@string/Add_GoBack"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.339"
+      app:layout_constraintHorizontal_bias="0.281"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="0.737" />

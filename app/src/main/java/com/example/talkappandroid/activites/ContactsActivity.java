@@ -1,23 +1,29 @@
 package com.example.talkappandroid.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.talkappandroid.TalkAppApplication;
 import com.example.talkappandroid.database.AppDB;
 import com.example.talkappandroid.database.ContactItemDao;
 import com.example.talkappandroid.R;
 import com.example.talkappandroid.adapters.ContactsListAdapter;
-import com.example.talkappandroid.viewModels.ContactItemViewModel;
+import com.example.talkappandroid.model.ContactItem;
+import com.example.talkappandroid.repositories.ContactRepository;
+import com.example.talkappandroid.viewModels.ContactsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class ContactsActivity extends AppCompatActivity implements ContactsListAdapter.OnContactClicked{
 
     private ContactItemDao contactItemDao;
-    private ContactItemViewModel viewModel;
+    private ContactsViewModel viewModel;
     private FloatingActionButton btnAdd;
     private RecyclerView lstContacts;
     private ContactsListAdapter adapter;
@@ -34,35 +40,15 @@ public class ContactsActivity extends AppCompatActivity implements ContactsListA
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         loadContactItems();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
 
     private void bindViews(){
         btnAdd = findViewById(R.id.btn_contacts_addContact);
         lstContacts = findViewById(R.id.lstContacts);
-        viewModel = new ContactItemViewModel();
     }
 
     private void setListeners() {
@@ -73,8 +59,8 @@ public class ContactsActivity extends AppCompatActivity implements ContactsListA
     }
 
     private void loadContactItems(){
-        viewModel.updateContactList(contactItemDao.index());
-        viewModel.get().observe(this, contactItems -> {
+        viewModel.updateContactList(contactItemDao.getAllContacts());
+        viewModel.getContacts().observe(this, contactItems -> {
             adapter.setContactItems(contactItems);
         });
         adapter.notifyDataSetChanged();
@@ -82,12 +68,16 @@ public class ContactsActivity extends AppCompatActivity implements ContactsListA
 
     private void setAdapter(){
         lstContacts.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        viewModel.get().observe(this, contactItems -> {
+        viewModel = new ContactsViewModel(new ContactRepository(TalkAppApplication.contactsApi));
+//        viewModel.getContacts().observe(this, contactItems -> {
+//
+//        });
+        List<ContactItem> contactItems =viewModel.getContacts().getValue();
+        if(contactItems != null) {
             adapter = new ContactsListAdapter(contactItems);
-        });
-
-        lstContacts.setAdapter(adapter);
-        adapter.setListener(this);
+            lstContacts.setAdapter(adapter);
+            adapter.setListener(this);
+        }
     }
 
     @Override

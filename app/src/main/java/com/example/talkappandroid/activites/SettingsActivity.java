@@ -1,0 +1,85 @@
+package com.example.talkappandroid.activites;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.talkappandroid.R;
+import com.example.talkappandroid.database.UserTokenDB;
+import com.example.talkappandroid.model.UserLogin;
+import com.example.talkappandroid.repositories.UserRepository;
+import com.example.talkappandroid.viewModels.UserViewModel;
+
+public class SettingsActivity extends AppCompatActivity {
+
+    private EditText server;
+    private TextView serverError;
+    private Button btnGoBack, btnApply;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
+        bindViews();
+        setListeners();
+    }
+
+    private void bindViews(){
+        btnGoBack = findViewById(R.id.btn_go_back_main);
+        btnApply = findViewById(R.id.btnApply);
+        server = findViewById(R.id.etServer);
+    }
+
+    private void setListeners(){
+        btnGoBack.setOnClickListener(v -> {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+            clearErrors();
+        });
+
+        btnApply.setOnClickListener(v -> {
+            if(validate(server.getText().toString())){
+                Intent i = new Intent(this, MainActivity.class);
+                i.putExtra("server", server.getText().toString());
+                server.setText("");
+                startActivity(i);
+            }
+            clearErrors();
+        });
+
+        server.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {}
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clearErrors();
+            }
+        });
+    }
+
+    private boolean validate(String server) {
+        if (server.isEmpty()) {
+            serverError = findViewById(R.id.tvServer);
+            serverError.setVisibility(TextView.VISIBLE);
+            return false;
+        }
+        // check if server is valid
+        return true;
+    }
+
+    private void clearErrors(){
+        if(!server.getText().toString().isEmpty()){
+            serverError = findViewById(R.id.tvServer);
+            serverError.setVisibility(TextView.INVISIBLE);
+        }
+    }
+}

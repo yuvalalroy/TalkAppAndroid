@@ -12,18 +12,20 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ContactServiceAPI {
     @GET("contacts")
-    Call<List<ContactItem>> getContacts();
+    Call<List<ContactItem>> getContacts(@Header("Authorization") String token);
 
     @POST("contacts")
-    Call<Void> createContact(@Body ContactItem contactItem);
+    Call<Void> createContact(@Body ContactItem contactItem, @Header("Authorization") String token);
 
-    @DELETE("contacts/{id}")
-    Call<Void> deleteContact(@Path("id") int id);
+    @GET("Contacts/{id}")
+    Call<ContactItem> getContactById(@Path("id") String id, @Header("Authorization") String token);
+
 
     @GET("{id}/Messages")
     Call<List<MessageItem>> getMessages();
@@ -33,5 +35,10 @@ public interface ContactServiceAPI {
 
     @DELETE("{id}/Messages/{id2}")
     Call<Void> deleteMessage(@Path("id") int id);
+
+
+
+
+
 
 }

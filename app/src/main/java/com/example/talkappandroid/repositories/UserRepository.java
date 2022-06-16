@@ -17,7 +17,7 @@ public class UserRepository {
     public UserRepository() {
         AppDB db = AppDB.getUsersDBInstance();
         this.dao = db.userDao();
-        this.userApi = UserAPI.getInstance(dao);
+        this.userApi = UserAPI.getInstance();
     }
 
     public void login(UserLogin loginUser, MutableLiveData<Boolean> isLoggedIn) {

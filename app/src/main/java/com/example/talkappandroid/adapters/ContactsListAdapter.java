@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.lifecycle.LiveData;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.talkappandroid.model.ContactItem;
@@ -51,9 +51,9 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         this.contactItems = contactItems;
     }
 
+    @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        /*View itemView = mInflater.inflate(R.layout.activity_contacts_item, parent, false);*/
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_contacts_item,
                 parent, false);
         return new ContactViewHolder(itemView);
@@ -64,12 +64,11 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         if(contactItems != null){
             ContactItem current = contactItems.get(position);
             holder.tvName.setText(current.getName());
-            holder.tvLastMessage.setText(current.getLastMessage());
-            holder.tvTime.setText(current.getLastDate());
+            holder.tvLastMessage.setText(current.getLast());
+            holder.tvTime.setText(current.getLastdate());
             holder.ivPic.setImageResource(current.getAccountPic());
             holder.itemView.setOnClickListener(v -> listener.onContactClicked(position));
         }
-
     }
 
     @Override

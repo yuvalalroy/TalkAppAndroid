@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pink_background"
+    tools:context=".activites.SettingsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.469"
+        tools:layout_editor_absoluteX="0dp">
+
+        <EditText
+            android:id="@+id/etServer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/darkDarkGrey"
+            android:ems="10"
+            android:hint="@string/type_new_server"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/darkDarkGrey"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvServer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/this_field_is_required"
+            android:textColorHint="@color/red"
+            android:textStyle="bold"
+            android:visibility="invisible">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="168dp"
+        android:layout_height="93dp"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="@font/dancing_script_bold"
+        android:text="@string/settings"
+        android:textColor="@color/darkDarkGrey"
+        android:textSize="52sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.242">
+
+    </TextView>
+
+    <Button
+        android:id="@+id/btnApply"
+        android:layout_width="111dp"
+        android:layout_height="49dp"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/babyBlue"
+        android:text="@string/apply"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.71"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.648" />
+
+    <Button
+        android:id="@+id/btn_go_back_main"
+        android:layout_width="111dp"
+        android:layout_height="49dp"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/babyRed"
+        android:text="@string/Add_GoBack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.253"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.648" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

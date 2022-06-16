@@ -10,7 +10,7 @@ import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.model.MessageItem;
 import com.example.talkappandroid.model.UserItem;
 
-@Database(entities = {ContactItem.class, MessageItem.class, UserItem.class}, version = 2)
+@Database(entities = {ContactItem.class, MessageItem.class, UserItem.class}, version = 3)
 public abstract class AppDB extends RoomDatabase {
     private static AppDB contactDB = null;
     private static AppDB messageDB = null;

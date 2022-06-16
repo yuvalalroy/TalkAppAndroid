@@ -91,7 +91,7 @@ public class ChatActivity extends AppCompatActivity {
         int position = bundle.getInt("Position");
         ContactItem currentContact = contactItemDao.get(position);
         contactName.setText(currentContact.getName());
-        lastSeen.setText(currentContact.getLastDate());
+        lastSeen.setText(currentContact.getLastdate());
     }
 
     private void setAdapter(){

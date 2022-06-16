@@ -13,4 +13,7 @@
     <color name="darkGrey">#202020</color>
     <color name="grey">#C0C0C0</color>
     <color name="lightPink">#FFF1EC</color>
+    <color name="darkDarkGrey">#606060</color>
+    <color name="babyBlue">#9999FF</color>
+    <color name="babyRed">#FF9999</color>
 </resources>

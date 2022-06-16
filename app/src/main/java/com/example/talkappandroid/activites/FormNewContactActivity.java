@@ -19,7 +19,7 @@ public class FormNewContactActivity extends AppCompatActivity {
 
     private Button btnGoBack, btnAddContact;
     private AppDB db;
-    private ContactItemDao contactItem;
+    private ContactItemDao contactItemDao;
     private EditText etContactServer, etContactName, etContactDisplayName;
     private TextView contactNameError, contactDNError, contactServerError;
 
@@ -30,7 +30,7 @@ public class FormNewContactActivity extends AppCompatActivity {
         bindViews();
         setListeners();
         db = AppDB.getContactDBInstance();
-        contactItem = db.contactItemDao();
+        contactItemDao = db.contactItemDao();
     }
 
 
@@ -70,19 +70,19 @@ public class FormNewContactActivity extends AppCompatActivity {
     private void setListeners() {
 
         btnAddContact.setOnClickListener(v -> {
-//            if(validate(etContactName.getText().toString(),
-//                        etContactDisplayName.getText().toString(),
-//                        etContactServer.getText().toString()))
-//            {
-//                ContactItem contactItem = new ContactItem(0, etContactName.getText().toString(),
-//                                                            etContactName.getText().toString());
-//                _contactItem.insert(contactItem);
-//                finish();
-//            }
+            String id = etContactName.getText().toString();
+            String name = etContactDisplayName.getText().toString();
+            String server = etContactServer.getText().toString();
+
+            if(validate(id, name, server)) {
+                ContactItem contactItem = new ContactItem(0, id, name, null, null, server);
+                contactItemDao.insert(contactItem);
+                finish();
+            }
 
             ContactItem contactItem = new ContactItem(0, etContactName.getText().toString(),
                     etContactDisplayName.getText().toString(), null, null, etContactServer.getText().toString());
-            this.contactItem.insert(contactItem);
+            this.contactItemDao.insert(contactItem);
             finish();
         });
 

@@ -32,13 +32,13 @@
 
     <TextView
         android:id="@+id/tvLastMessage"
-        android:layout_width="217dp"
+        android:layout_width="199dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvName"
         android:layout_marginStart="-1dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="6dp"
-        android:layout_marginRight="-265dp"
+        android:layout_marginRight="-261dp"
         android:layout_toLeftOf="@id/ivPic"
         android:layout_toEndOf="@id/ivPic"
         android:ellipsize="end"
@@ -47,7 +47,7 @@
 
     <TextView
         android:id="@+id/tvTime"
-        android:layout_width="79dp"
+        android:layout_width="106dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/tvName"
         android:layout_alignParentEnd="true"

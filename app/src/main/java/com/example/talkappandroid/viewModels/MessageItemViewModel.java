@@ -4,13 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.model.MessageItem;
 import com.example.talkappandroid.model.Transfer;
-import com.example.talkappandroid.repositories.ContactRepository;
 import com.example.talkappandroid.repositories.MessageRepository;
 
-import java.text.Annotation;
 import java.util.List;
 
 
@@ -31,11 +28,7 @@ public class MessageItemViewModel extends ViewModel {
 
     public void getMessagesFromAPI() { mRepository.getMessagesFromAPI(); }
 
-    public void postTransfer(Transfer transfer) { mRepository.postTransfer(transfer, transferred);  }
-
-    public MutableLiveData<Boolean> getTransferred() { return transferred; }
-
-    public void postMessage(MessageItem messageItem) { mRepository.postMessage(messageItem, messageResponse); }
+    public void postTransferMessage(Transfer transfer, MessageItem messageItem) { mRepository.postTransferMessage(transfer, messageItem, messageResponse);  }
 
     public MutableLiveData<Boolean> getMessageResponse() {
         return messageResponse;

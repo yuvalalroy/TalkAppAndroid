@@ -2,17 +2,12 @@ package com.example.talkappandroid.activites;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,18 +20,12 @@ import com.example.talkappandroid.database.AppDB;
 import com.example.talkappandroid.database.ContactItemDao;
 import com.example.talkappandroid.database.MessageItemDao;
 import com.example.talkappandroid.database.UserTokenDB;
-import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.model.MessageItem;
 import com.example.talkappandroid.model.Transfer;
 import com.example.talkappandroid.repositories.MessageRepository;
 import com.example.talkappandroid.viewModels.MessageItemViewModel;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import androidx.core.widget.NestedScrollView;
@@ -80,8 +69,15 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    private void postMessage(MessageItem messageItem) {
-        messageViewModel.postMessage(messageItem);
+
+    private void transferPostMessage(MessageItem messageItem) {
+        String from = UserTokenDB.getFromEditor(UserTokenDB.getToken()).getUserName();
+        String to = contactID;
+        String content = messageInput.getText().toString();
+
+        Transfer transfer = new Transfer(from, to, content);
+        messageViewModel.postTransferMessage(transfer, messageItem);
+
         messageViewModel.getMessageResponse().observe(this, res -> {
             if(res){
                 adapter.clear();
@@ -92,27 +88,12 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void transfer(MessageItem messageItem) {
-        String from = UserTokenDB.getFromEditor(UserTokenDB.getToken()).getUserName();
-        String to = contactID;
-        String content = messageInput.getText().toString();
-
-        Transfer transfer = new Transfer(from, to, content);
-        messageViewModel.postTransfer(transfer);
-
-        messageViewModel.getTransferred().observe(this, res -> {
-            System.out.println(res);
-            if(res)
-                postMessage(messageItem);
-        });
-    }
-
     private void setListeners() {
         sendBtn.setOnClickListener(v -> {
             if(!messageInput.getText().toString().isEmpty()) {
                 MessageItem messageItem = new MessageItem(messageInput.getText().toString(),
                         "12:30", false);
-                transfer(messageItem);
+                transferPostMessage(messageItem);
             }
         });
 

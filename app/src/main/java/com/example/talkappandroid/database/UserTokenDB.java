@@ -13,6 +13,7 @@ public class UserTokenDB {
     private static SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private static UserTokenDB instance;
+    public static String SERVER_URL = "http://10.0.2.2:7201/api/";
     private static String token;
 
     private UserTokenDB(){

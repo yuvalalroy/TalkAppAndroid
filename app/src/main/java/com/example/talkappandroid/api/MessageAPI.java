@@ -68,7 +68,7 @@ public class MessageAPI {
             }});
     }
 
-    public void postMessage(MessageItemDao dao, String contactID, MessageItem message, MutableLiveData<Boolean> messageResponse, MessageRepository messageRepository) {
+    public void postMessage(String contactID, MessageItemDao dao, MessageItem message, MutableLiveData<Boolean> messageResponse, MessageRepository messageRepository) {
         Call<Void> messageCall = messageServiceAPI.createMessage(contactID, message, "Bearer " + UserTokenDB.getToken());
         messageCall.enqueue(new Callback<Void>() {
             @Override
@@ -85,21 +85,21 @@ public class MessageAPI {
         });
     }
 
-    public void postTransfer(Transfer transfer, MutableLiveData<Boolean> transferred) {
+    public void postTransferMessage(String contactID, Transfer transfer, MessageRepository repository, MessageItemDao dao, MessageItem messageItem, MutableLiveData<Boolean> msgResponse) {
         Call<Void> transferCall = messageServiceAPI.postTransfer(transfer,"Bearer " + UserTokenDB.getToken());
         transferCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 System.out.println(response.code());
-                if (response.code() == 201)
-                    transferred.postValue(true);
-                else
-                    transferred.postValue(false);
+                if (response.code() == 201){
+                    postMessage(contactID,dao, messageItem,msgResponse, repository);
+                } else
+                    msgResponse.postValue(false);
             }
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                transferred.postValue(false);
+                msgResponse.postValue(false);
             }
         });
     }

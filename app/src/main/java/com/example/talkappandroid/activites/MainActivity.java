@@ -13,7 +13,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnRegister, btnLogin;
     private ImageView btnSettings;
-    private String server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,17 +21,14 @@ public class MainActivity extends AppCompatActivity {
         btnSettings = findViewById(R.id.go_to_settings);
         btnRegister = findViewById(R.id.btn_go_to_register);
         btnLogin = findViewById(R.id.btn_go_to_login);
-        server = "http://10.0.2.2:7201/api/";
 
         btnRegister.setOnClickListener(v -> {
             Intent i = new Intent(this, RegisterActivity.class);
-            i.putExtra("defaultServer", server);
             startActivity(i);
         });
 
         btnLogin.setOnClickListener(v -> {
             Intent i = new Intent(this, LoginActivity.class);
-            i.putExtra("defaultServer", server);
             startActivity(i);
         });
 
@@ -45,8 +41,5 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null)
-            server = bundle.getString("server");
     }
 }

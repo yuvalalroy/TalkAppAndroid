@@ -111,8 +111,9 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/message_input"
             android:hint="@string/type_a_message"
+            android:inputType="text"
             android:paddingStart="6dp"
-            android:inputType="text" />
+            android:textSize="13dp" />
 
 
         <ImageView

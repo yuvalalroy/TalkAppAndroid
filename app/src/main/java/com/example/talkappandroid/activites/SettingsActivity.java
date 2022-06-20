@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private EditText server;
     private TextView serverError;
-    private Button btnGoBack, btnApply;
+    private Button btnGoBack, btnApply, btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void bindViews(){
         btnGoBack = findViewById(R.id.btn_go_back_main);
+        btnLogout = findViewById(R.id.btnLogout);
         btnApply = findViewById(R.id.btnApply);
         server = findViewById(R.id.etServer);
     }
@@ -44,10 +46,19 @@ public class SettingsActivity extends AppCompatActivity {
             clearErrors();
         });
 
+        btnLogout.setOnClickListener(v -> {
+            UserTokenDB.setToken(null);
+            UserTokenDB.SERVER_URL = "http://10.0.2.2:7201/api/";
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+            clearErrors();
+        });
+
         btnApply.setOnClickListener(v -> {
             if(validate(server.getText().toString())){
+                UserTokenDB.SERVER_URL = server.getText().toString();
+                Toast.makeText(SettingsActivity.this, "Changed server-url successfully", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(this, MainActivity.class);
-                i.putExtra("server", server.getText().toString());
                 server.setText("");
                 startActivity(i);
             }
@@ -67,12 +78,22 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private boolean validate(String server) {
+        serverError = findViewById(R.id.tvServer);
         if (server.isEmpty()) {
-            serverError = findViewById(R.id.tvServer);
+
             serverError.setVisibility(TextView.VISIBLE);
             return false;
         }
-        // check if server is valid
+        if (server.contains("http")) {
+            serverError.setText("Server should not contain http/s prefix!");
+            serverError.setVisibility(TextView.VISIBLE);
+            return false;
+        }
+        if (!server.contains(":")) {
+            serverError.setText("Server should provide a port!");
+            serverError.setVisibility(TextView.VISIBLE);
+            return false;
+        }
         return true;
     }
 

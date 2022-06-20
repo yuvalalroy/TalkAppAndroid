@@ -22,21 +22,14 @@ public class LoginActivity extends AppCompatActivity {
     private EditText eUsername, ePassword;
     private TextView usernameError, passwordError;
     private Button btnSignIn, btnLogin;
-    private String server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         bindViews();
-        //setServer();
         setListeners();
 
-    }
-
-    private void setServer() {
-        Bundle bundle = getIntent().getExtras();
-        server = bundle.getString("defaultServer");
     }
 
     private void bindViews(){

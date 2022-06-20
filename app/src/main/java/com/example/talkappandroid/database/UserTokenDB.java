@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.example.talkappandroid.TalkAppApplication;
 import com.example.talkappandroid.api.UserServiceAPI;
 import com.example.talkappandroid.model.UserItem;
+import com.example.talkappandroid.model.UserLogin;
 import com.google.gson.Gson;
 
 public class UserTokenDB {
@@ -26,18 +27,21 @@ public class UserTokenDB {
         return instance;
     }
 
-    public void insertToEditor(UserItem user, String token) {
+    public static boolean checkIfExists(String token) {
+        return (pref.getString(token, null) == null);
+    }
+
+    public void insertToEditor(UserLogin user, String token) {
         Gson gson = new Gson();
-        String json = gson.toJson(user);
-        editor.putString(token, json);
-        editor.commit();
+        editor.putString(token, gson.toJson(user)).apply();
     }
 
     public static UserItem getFromEditor(String token) {
         if(token != null) {
             Gson gson = new Gson();
-            String json = pref.getString(token, "");
-            return gson.fromJson(json, UserItem.class);
+            String json = pref.getString(token, null);
+            if(json != null)
+                return gson.fromJson(json, UserItem.class);
         }
         return null;
     }
@@ -49,4 +53,5 @@ public class UserTokenDB {
     public static void setToken(String token) {
         UserTokenDB.token = token;
     }
+
 }

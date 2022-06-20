@@ -2,30 +2,44 @@ package com.example.talkappandroid.activites;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.talkappandroid.R;
+import com.example.talkappandroid.TalkAppApplication;
 import com.example.talkappandroid.adapters.MessagesListAdapter;
 import com.example.talkappandroid.database.AppDB;
 import com.example.talkappandroid.database.ContactItemDao;
 import com.example.talkappandroid.database.MessageItemDao;
+import com.example.talkappandroid.database.UserTokenDB;
 import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.model.MessageItem;
+import com.example.talkappandroid.model.Transfer;
+import com.example.talkappandroid.repositories.MessageRepository;
 import com.example.talkappandroid.viewModels.MessageItemViewModel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import androidx.core.widget.NestedScrollView;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -37,7 +51,10 @@ public class ChatActivity extends AppCompatActivity {
     private EditText messageInput;
     private RecyclerView lstMessages;
     private MessagesListAdapter adapter;
-    private MessageItemViewModel viewModel;
+    private MessageItemViewModel messageViewModel;
+    private NestedScrollView scrollView;
+    private String contactID;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -52,24 +69,50 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void bindViews(){
+        contactID = getIntent().getExtras().getString("Contact_id");
+        scrollView = findViewById(R.id.refreshLayout);
         goBackArrow = findViewById(R.id.go_back);
         sendBtn = findViewById(R.id.send_msg);
         messageInput = findViewById(R.id.msg_input);
-        contactName = (TextView) findViewById(R.id.tvchatName);
-        lastSeen = (TextView) findViewById(R.id.tvlastSeen);
-        viewModel = new MessageItemViewModel();
+        contactName = findViewById(R.id.tvchatName);
+        lastSeen = findViewById(R.id.tvlastSeen);
         lstMessages = findViewById(R.id.lstMessages);
     }
 
 
+    private void postMessage(MessageItem messageItem) {
+        messageViewModel.postMessage(messageItem);
+        messageViewModel.getMessageResponse().observe(this, res -> {
+            if(res){
+                adapter.clear();
+                this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                scrollView.postDelayed(() -> scrollView.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
+            }
+            messageInput.setText("");
+        });
+    }
+
+    private void transfer(MessageItem messageItem) {
+        String from = UserTokenDB.getFromEditor(UserTokenDB.getToken()).getUserName();
+        String to = contactID;
+        String content = messageInput.getText().toString();
+
+        Transfer transfer = new Transfer(from, to, content);
+        messageViewModel.postTransfer(transfer);
+
+        messageViewModel.getTransferred().observe(this, res -> {
+            System.out.println(res);
+            if(res)
+                postMessage(messageItem);
+        });
+    }
+
     private void setListeners() {
         sendBtn.setOnClickListener(v -> {
             if(!messageInput.getText().toString().isEmpty()) {
-                DateFormat time = new SimpleDateFormat("HH:mm");
-                MessageItem messageItem = new MessageItem(0, messageInput.getText().toString(),
-                        time.format(time.format(new Date())), true);
-                messageItemDao.insert(messageItem);
-                loadMessageItems();
+                MessageItem messageItem = new MessageItem(messageInput.getText().toString(),
+                        "12:30", false);
+                transfer(messageItem);
             }
         });
 
@@ -87,27 +130,22 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void setTextView() {
-        Bundle bundle = getIntent().getExtras();
-        int position = bundle.getInt("Position");
-        ContactItem currentContact = contactItemDao.get(position);
-        contactName.setText(currentContact.getName());
-        lastSeen.setText(currentContact.getLastdate());
+        String contact_lastdate = getIntent().getExtras().getString("Contact_lastdate");
+        contactName.setText(getIntent().getExtras().getString("Contact_name"));
+        lastSeen.setText("Active now");
     }
 
     private void setAdapter(){
-        lstMessages.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        viewModel.get().observe(this, messageItems -> {
-            adapter = new MessagesListAdapter(messageItems);
+        scrollView.postDelayed(()->scrollView.fullScroll(NestedScrollView.FOCUS_DOWN),100);
+        messageViewModel = new MessageItemViewModel(new MessageRepository(contactID, TalkAppApplication.messageApi));
+        messageViewModel.getMessagesFromAPI();
+        messageViewModel.getMessages().observe(this, messages -> {
+            Collections.sort(messages, (m1, m2) -> m1.getId() - m2.getId());
+            adapter = new MessagesListAdapter(this, messages);
+            lstMessages.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+            lstMessages.setAdapter(adapter);
+            scrollView.postDelayed(() -> scrollView.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
         });
-        lstMessages.setAdapter(adapter);
-        loadMessageItems();
     }
 
-    private void loadMessageItems(){
-        viewModel.updateContactList(messageItemDao.index());
-        viewModel.get().observe(this, messageItems -> {
-            adapter.setMessageItems(messageItems);
-        });
-        adapter.notifyDataSetChanged();
-    }
 }

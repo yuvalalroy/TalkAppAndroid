@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -27,6 +28,7 @@ public class ContactsActivity extends AppCompatActivity implements ContactsListA
     private FloatingActionButton btnAdd;
     private RecyclerView lstContacts;
     private ContactsListAdapter adapter;
+    private int lastContactPressed;
 
 
     @Override
@@ -47,6 +49,7 @@ public class ContactsActivity extends AppCompatActivity implements ContactsListA
 
 
     private void bindViews(){
+        this.lastContactPressed = -1;
         btnAdd = findViewById(R.id.btn_contacts_addContact);
         lstContacts = findViewById(R.id.lstContacts);
     }
@@ -59,32 +62,34 @@ public class ContactsActivity extends AppCompatActivity implements ContactsListA
     }
 
     private void loadContactItems(){
-        viewModel.updateContactList(contactItemDao.getAllContacts());
-        viewModel.getContacts().observe(this, contactItems -> {
-            adapter.setContactItems(contactItems);
-        });
+        adapter.clear();
+        viewModel.getContactsFromAPI();
+        adapter.setContactItems(viewModel.getContacts().getValue());
         adapter.notifyDataSetChanged();
     }
 
     private void setAdapter(){
-        lstContacts.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         viewModel = new ContactsViewModel(new ContactRepository(TalkAppApplication.contactsApi));
-//        viewModel.getContacts().observe(this, contactItems -> {
-//
-//        });
-        List<ContactItem> contactItems =viewModel.getContacts().getValue();
-        if(contactItems != null) {
-            adapter = new ContactsListAdapter(contactItems);
-            lstContacts.setAdapter(adapter);
-            adapter.setListener(this);
-        }
+        List<ContactItem> contactItems = viewModel.getContacts().getValue();
+
+        adapter = new ContactsListAdapter(contactItems);
+        lstContacts.setAdapter(adapter);
+        lstContacts.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        adapter.setListener(this);
+
+        viewModel.getContacts().observe(this, contacts -> {
+            adapter.clear();
+            adapter.setContactItems(contacts);
+        });
     }
 
     @Override
     public void onContactClicked(int position) {
-        /*contacts.get(position);*/
         Intent i = new Intent(this, ChatActivity.class);
-        i.putExtra("Position", position);
+        ContactItem temp = adapter.getContactItems().get(position);
+        i.putExtra("Contact_name", temp.getName());
+        i.putExtra("Contact_lastdate", temp.getLastdate());
+        i.putExtra("Contact_id", temp.getId());
         startActivity(i);
     }
 

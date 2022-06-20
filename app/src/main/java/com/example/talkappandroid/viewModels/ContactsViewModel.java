@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.talkappandroid.model.ContactItem;
+import com.example.talkappandroid.model.Invitation;
 import com.example.talkappandroid.repositories.ContactRepository;
 
 import java.util.List;
@@ -12,19 +13,37 @@ import java.util.List;
 
 public class ContactsViewModel extends ViewModel {
     private ContactRepository mRepository;
-    private final MutableLiveData<List<ContactItem>> contactItems;
+    private final MutableLiveData<String> contactResponse;
+    private final MutableLiveData<Boolean> invited;
+    private LiveData<List<ContactItem>> contacts;
 
     public ContactsViewModel(ContactRepository contactRepository) {
         mRepository = contactRepository;
-        contactItems = mRepository.getContacts();
+        contactResponse = new MutableLiveData<>();
+        invited = new MutableLiveData<>();
+        this.contacts = mRepository.getAll();
     }
 
-    public MutableLiveData<List<ContactItem>> getContacts() { return contactItems; }
+    public LiveData<List<ContactItem>> getContacts(){
+        return this.contacts;
+    }
 
-    public void add(ContactItem contact) { mRepository.add(contact);}
+    public void getContactsFromAPI(){ mRepository.getContactsFromAPI();}
+
+    public void postContact(ContactItem contact) { mRepository.postContact(contact, contactResponse);}
+
+    public void postInvitation(Invitation invitation) { mRepository.postInvitation(invitation, invited);}
 
     public void delete(ContactItem contact) { mRepository.delete(contact);}
 
+    public MutableLiveData<Boolean> getInvited() { return invited; }
 
-    public void updateContactList(List<ContactItem> items) { contactItems.postValue(items); }
+    public MutableLiveData<String> getContactResponse() { return contactResponse; }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mRepository.clear();
+    }
+
 }

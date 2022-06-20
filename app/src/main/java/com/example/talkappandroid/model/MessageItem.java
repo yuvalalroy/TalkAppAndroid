@@ -1,10 +1,8 @@
 package com.example.talkappandroid.model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import java.sql.Time;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 public class MessageItem {
@@ -14,11 +12,11 @@ public class MessageItem {
     private String content;
     private String created;
     private boolean sent;
+    private String contactID;
 
     public MessageItem() {}
 
-    public MessageItem(int id, String content, String time, boolean sent) {
-        this.id = id;
+    public MessageItem(String content, String time, boolean sent) {
         this.content = content;
         this.created = time;
         this.sent = sent;
@@ -44,6 +42,11 @@ public class MessageItem {
         this.id = id;
     }
 
+    public String getContactID() {
+        return contactID;
+    }
 
-
+    public void setContactID(String contactID) {
+        this.contactID = contactID;
+    }
 }

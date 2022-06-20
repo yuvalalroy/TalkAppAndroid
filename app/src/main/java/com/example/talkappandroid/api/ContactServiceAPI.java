@@ -1,6 +1,7 @@
 package com.example.talkappandroid.api;
 
 import com.example.talkappandroid.model.ContactItem;
+import com.example.talkappandroid.model.Invitation;
 import com.example.talkappandroid.model.MessageItem;
 import com.example.talkappandroid.model.UserItem;
 import com.example.talkappandroid.model.UserLogin;
@@ -23,22 +24,11 @@ public interface ContactServiceAPI {
     @POST("contacts")
     Call<Void> createContact(@Body ContactItem contactItem, @Header("Authorization") String token);
 
-    @GET("Contacts/{id}")
+    @GET("contacts/{id}")
     Call<ContactItem> getContactById(@Path("id") String id, @Header("Authorization") String token);
 
-
-    @GET("{id}/Messages")
-    Call<List<MessageItem>> getMessages();
-
-    @POST("{id}/Messages")
-    Call<Void> createMessage(@Body MessageItem messageItem);
-
-    @DELETE("{id}/Messages/{id2}")
-    Call<Void> deleteMessage(@Path("id") int id);
-
-
-
-
+    @POST("invitations")
+    Call<Void> postInvitation(@Body Invitation invitation);
 
 
 }

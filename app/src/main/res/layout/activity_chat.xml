@@ -10,6 +10,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/chatbackground">
@@ -18,8 +19,7 @@
         android:id="@+id/chat_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_500"
-        android:src="@drawable/ic_go_back">
+        android:background="@color/purple_500">
 
         <ImageView
             android:id="@+id/go_back"
@@ -28,7 +28,10 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="15dp"
             android:src="@drawable/ic_go_back"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            tools:ignore="MissingConstraints"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivPic"
@@ -73,22 +76,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/refreshLayout">
+            android:layout_height="wrap_content"
+            android:layout_weight="9.8"
+            android:layout_marginTop="70dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            app:layout_constraintBottom_toBottomOf="@id/chat_header"
+            app:layout_constraintTop_toTopOf="@+id/chat_footer">
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lstMessages"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scrollbars="vertical" />
 
-                android:id="@+id/lstMessages" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:id="@+id/chat_footer"
         android:layout_alignParentBottom="true"
         android:background="@color/lightPink">
 

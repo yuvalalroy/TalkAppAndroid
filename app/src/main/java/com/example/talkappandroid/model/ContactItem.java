@@ -5,6 +5,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.talkappandroid.R;
+import com.example.talkappandroid.database.UserTokenDB;
 
 @Entity
 public class ContactItem {
@@ -17,8 +18,23 @@ public class ContactItem {
     private String last;
     private String lastdate;
     private String server;
+    private String username;
     @Ignore
     private int accountPic;
+
+
+    public ContactItem() {}
+
+    public ContactItem(String id, String name, String lastMessage, String lastDate, String server) {
+        this.name = name;
+        this.id = id;
+        this.last = lastMessage;
+        this.lastdate = lastDate;
+        this.server = server;
+        this.accountPic = R.drawable.ic_avatar;
+        this.username = UserTokenDB.getFromEditor(UserTokenDB.getToken()).getUserName();
+
+    }
 
     public int getIdentifier() {
         return identifier;
@@ -28,17 +44,12 @@ public class ContactItem {
         this.identifier = identifier;
     }
 
-    public ContactItem() {}
+    public String getUsername() {
+        return username;
+    }
 
-    public ContactItem(int identifier, String id, String name, String lastMessage, String lastDate, String server) {
-        this.identifier = identifier;
-        this.name = name;
-        this.id = id;
-        this.last = lastMessage;
-        this.lastdate = lastDate;
-        this.server = server;
-        this.accountPic = R.drawable.ic_avatar;
-
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getServer() { return server; }
@@ -88,9 +99,11 @@ public class ContactItem {
     @Override
     public String toString() {
         return "ContactItem{" +
-                "_id=" + id +
-                ", _lastMessage='" + last + '\'' +
-                ", _lastDate='" + lastdate + '\'' +
+                "id=" + id +
+                ",name=" + name +
+                ",last=" + last +
+                ",lastDate=" + lastdate  +
+                ",server=" + server +
                 '}';
     }
 

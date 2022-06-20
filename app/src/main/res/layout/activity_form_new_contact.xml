@@ -87,6 +87,16 @@
 
     </TextView>
 
+    <TextView
+        android:id="@+id/newContactError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textColorHint="@color/red"
+        android:textStyle="bold"
+        android:visibility="invisible">
+    </TextView>
+
   </LinearLayout>
 
   <TextView
@@ -135,5 +145,6 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="0.737" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
         userViewModel.checkIfLoggedIn().observe(this, answer -> {
             if (answer) {
                 Intent i = new Intent(this, ContactsActivity.class);
-                i.putExtra("Token", UserTokenDB.getToken());
                 startActivity(i);
                 finish();
             } else {

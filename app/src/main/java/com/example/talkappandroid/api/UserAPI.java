@@ -58,8 +58,6 @@ public class UserAPI {
             @Override
             public void onResponse(@NonNull Call<UserToken> call, @NonNull Response<UserToken> response) {
                 if(response.isSuccessful()){
-                    UserToken userToken = response.body();
-                    userTokenDB.insertToEditor(postUser, userToken.getToken());
                     isLoggedIn.postValue(true);
                 }
                 else
@@ -78,15 +76,12 @@ public class UserAPI {
             public void onResponse(@NonNull Call<UserToken> call, @NonNull Response<UserToken> response) {
                 if (response.isSuccessful()) {
                     UserToken userToken = response.body();
-                    if (Objects.equals(userToken.getToken(), "Wrong password") || Objects.equals(userToken.getToken(), "User does not exists"))
-                        isLoggedIn.postValue(false);
-                    else {
-                        UserTokenDB.setToken(userToken.getToken());
-                        //currentUser.postValue(userTokenDB.getFromEditor(token));
-                        isLoggedIn.postValue(true);
+                    if(UserTokenDB.checkIfExists(userToken.getToken())){
+                        userTokenDB.insertToEditor(loginUser, userToken.getToken());
                     }
-                }
-                else {
+                    UserTokenDB.setToken(userToken.getToken());
+                    isLoggedIn.postValue(true);
+                } else {
                     isLoggedIn.postValue(false);
                 }
             }

@@ -20,7 +20,7 @@ import com.example.talkappandroid.viewModels.UserViewModel;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText eUsername, ePassword;
-    private TextView usernameError, passwordError;
+    private TextView usernameError, passwordError, userPasswordError;
     private Button btnSignIn, btnLogin;
 
     @Override
@@ -65,7 +65,9 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             } else {
-                Toast.makeText(LoginActivity.this, "User does not exists or server is not responsive.", Toast.LENGTH_SHORT).show();
+                userPasswordError = findViewById(R.id.tvUserOrPassword);
+                userPasswordError.setVisibility(TextView.VISIBLE);
+                //Toast.makeText(LoginActivity.this, "User does not exists or server is not responsive.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -109,8 +111,10 @@ public class LoginActivity extends AppCompatActivity {
         if(!eUsername.getText().toString().isEmpty() || !ePassword.getText().toString().isEmpty()){
             usernameError = findViewById(R.id.textViewUsernameError);
             passwordError = findViewById(R.id.textViewPasswordError);
+            userPasswordError = findViewById(R.id.tvUserOrPassword);
             passwordError.setVisibility(TextView.INVISIBLE);
             usernameError.setVisibility(TextView.INVISIBLE);
+            userPasswordError.setVisibility(TextView.INVISIBLE);
         }
     }
 }

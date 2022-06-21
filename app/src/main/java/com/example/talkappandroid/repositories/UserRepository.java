@@ -7,7 +7,7 @@ import com.example.talkappandroid.database.AppDB;
 import com.example.talkappandroid.database.UserDao;
 import com.example.talkappandroid.model.UserItem;
 import com.example.talkappandroid.model.UserLogin;
-import com.example.talkappandroid.model.UserRegister;
+import com.example.talkappandroid.utils.FirebaseToken;
 
 public class UserRepository {
 
@@ -20,11 +20,15 @@ public class UserRepository {
         this.userApi = UserAPI.getInstance();
     }
 
-    public void login(UserLogin loginUser, MutableLiveData<Boolean> isLoggedIn) {
+    public void login(UserLogin loginUser,MutableLiveData<Boolean> isLoggedIn) {
         this.userApi.postLogin(loginUser, isLoggedIn);
     }
 
     public void register(UserItem registerUser, MutableLiveData<Boolean> isLoggedIn) {
         this.userApi.postRegister(registerUser, isLoggedIn);
+    }
+
+    public void notifyToken(FirebaseToken notificationToken){
+        this.userApi.notifyFirebaseToServer(notificationToken);
     }
 }

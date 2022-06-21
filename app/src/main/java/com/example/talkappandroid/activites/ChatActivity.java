@@ -76,7 +76,7 @@ public class ChatActivity extends AppCompatActivity {
         String content = messageInput.getText().toString();
 
         Transfer transfer = new Transfer(from, to, content);
-        messageViewModel.postTransferMessage(transfer, messageItem);
+        messageViewModel.postTransferMessage(contactID, transfer, messageItem);
 
         messageViewModel.getMessageResponse().observe(this, res -> {
             if(res){
@@ -118,9 +118,9 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setAdapter(){
         scrollView.postDelayed(()->scrollView.fullScroll(NestedScrollView.FOCUS_DOWN),100);
-        messageViewModel = new MessageItemViewModel(new MessageRepository(contactID, TalkAppApplication.messageApi));
-        messageViewModel.getMessagesFromAPI();
-        messageViewModel.getMessages().observe(this, messages -> {
+        messageViewModel = new MessageItemViewModel(new MessageRepository(TalkAppApplication.messageApi));
+        messageViewModel.getMessagesFromAPI(contactID);
+        messageViewModel.getMessages(contactID).observe(this, messages -> {
             Collections.sort(messages, (m1, m2) -> m1.getId() - m2.getId());
             adapter = new MessagesListAdapter(this, messages);
             lstMessages.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));

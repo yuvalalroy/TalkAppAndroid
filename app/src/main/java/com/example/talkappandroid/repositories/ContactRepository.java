@@ -12,6 +12,7 @@ import com.example.talkappandroid.database.UserTokenDB;
 import com.example.talkappandroid.model.ContactItem;
 import com.example.talkappandroid.database.ContactItemDao;
 import com.example.talkappandroid.model.Invitation;
+import com.example.talkappandroid.utils.FirebaseNotification;
 
 import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
@@ -30,6 +31,18 @@ public class ContactRepository {
         this.contactsApi = contactsApi;
         this.contactListData = new ContactListData();
         this.contactsApi.getContacts(dao, this);
+    }
+
+    public void updateContactOnNewMessage(FirebaseNotification update) {
+        new Thread(()-> {
+            ContactItem contact = dao.get(update.getContactID());
+            if (contact == null)
+                return;
+
+            contact.setLast(update.getContent());
+            contact.setLastdate(update.getDate());
+            dao.update(contact);
+        }).start();
     }
 
     class ContactListData extends MutableLiveData<List<ContactItem>> {
@@ -77,10 +90,6 @@ public class ContactRepository {
 
     public void postInvitation(final Invitation invitation, MutableLiveData<Boolean> invitationResponse){
         contactsApi.postInvitation(invitation, invitationResponse);
-    }
-
-    public void delete(final ContactItem contactItem){
-        //api.delete(contactItem);
     }
 
     public void clear() {

@@ -12,10 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.talkappandroid.R;
-import com.example.talkappandroid.database.UserTokenDB;
 import com.example.talkappandroid.model.UserLogin;
 import com.example.talkappandroid.repositories.UserRepository;
+import com.example.talkappandroid.utils.FirebaseToken;
 import com.example.talkappandroid.viewModels.UserViewModel;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,13 +45,11 @@ public class LoginActivity extends AppCompatActivity {
             if (username.isEmpty()) {
                 usernameError = (TextView) findViewById(R.id.textViewUsernameError);
                 usernameError.setVisibility(TextView.VISIBLE);
-//                Toast.makeText(Login.this, "Username is required!", Toast.LENGTH_SHORT).show();
             }
 
             if (password.isEmpty()) {
                 passwordError = (TextView) findViewById(R.id.textViewPasswordError);
                 passwordError.setVisibility(TextView.VISIBLE);
-//                Toast.makeText(Login.this, "Password is required!", Toast.LENGTH_SHORT).show();
             }
             return;
         }
@@ -61,13 +60,17 @@ public class LoginActivity extends AppCompatActivity {
         userViewModel.login(userLogin);
         userViewModel.checkIfLoggedIn().observe(this, answer -> {
             if (answer) {
+                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(LoginActivity.this, instanceIdResult -> {
+                    String token = instanceIdResult.getToken();
+                    FirebaseToken firebaseToken = new FirebaseToken(token);
+                    userViewModel.notifyToken(firebaseToken);
+                });
                 Intent i = new Intent(this, ContactsActivity.class);
                 startActivity(i);
                 finish();
             } else {
                 userPasswordError = findViewById(R.id.tvUserOrPassword);
                 userPasswordError.setVisibility(TextView.VISIBLE);
-                //Toast.makeText(LoginActivity.this, "User does not exists or server is not responsive.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -80,15 +83,15 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> {
             validate(eUsername.getText().toString(), ePassword.getText().toString());
+            clearErrors();
+            clearText();
         });
 
 
         eUsername.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {}
-
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 clearErrors();
             }
@@ -97,14 +100,17 @@ public class LoginActivity extends AppCompatActivity {
         ePassword.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {}
-
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 clearErrors();
             }
         });
 
+    }
+
+    private void clearText() {
+        eUsername.setText("");
+        ePassword.setText("");
     }
 
     private void clearErrors(){

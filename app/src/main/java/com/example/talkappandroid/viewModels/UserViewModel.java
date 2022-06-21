@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.talkappandroid.model.UserItem;
 import com.example.talkappandroid.model.UserLogin;
-import com.example.talkappandroid.model.UserRegister;
 import com.example.talkappandroid.repositories.UserRepository;
+import com.example.talkappandroid.utils.FirebaseToken;
 
 
 public class UserViewModel extends ViewModel {
@@ -34,14 +34,7 @@ public class UserViewModel extends ViewModel {
         return isLoggedIn;
     }
 
-//
-//    public UserItem get() { return user;}
-//
-//    public void add(UserItem user) { userRepository.add(user);}
-//
-//    public void delete(UserItem user) { userRepository.delete(user);}
-//
-//    public void reload() { userRepository.reload();}
-
-    //public void updateContactList(UserItem user) { contactItems = (LiveData<List<ContactItem>>) items; }
+    public void notifyToken(FirebaseToken firebaseToken){
+        userRepository.notifyToken(firebaseToken);
+    }
 }

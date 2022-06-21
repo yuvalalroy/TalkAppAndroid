@@ -33,7 +33,7 @@ public class ContactAPI {
     private ContactAPI() {
         this.contactListData = new MutableLiveData<>();
         retrofit = new Retrofit.Builder()
-            .baseUrl(TalkAppApplication.context.getString(R.string.BaseUrl))
+            .baseUrl(UserTokenDB.SERVER_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
         contactServiceAPI = retrofit.create(ContactServiceAPI.class);

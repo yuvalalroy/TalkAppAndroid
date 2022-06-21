@@ -34,8 +34,6 @@ public class ContactsViewModel extends ViewModel {
 
     public void postInvitation(Invitation invitation) { mRepository.postInvitation(invitation, invited);}
 
-    public void delete(ContactItem contact) { mRepository.delete(contact);}
-
     public MutableLiveData<Boolean> getInvited() { return invited; }
 
     public MutableLiveData<String> getContactResponse() { return contactResponse; }

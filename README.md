@@ -30,7 +30,7 @@ In this screen, you'll be able to see all your previous chats with your contacts
 
 ### Settings
 
-In this screen, you'ii be able to edit current app server URL and logout from app.
+In this screen, you'll be able to edit current app server URL or logout from app.
 
 ### Chat
 

@@ -8,9 +8,7 @@ A React client project for a chat application "TalkApp".
 
 Clone the project.
 
-Install dependencies:
-
-Start the DevoceApp:
+Start the DeviceApp
 
 ## Features
 

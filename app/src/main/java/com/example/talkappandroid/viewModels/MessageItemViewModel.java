@@ -22,13 +22,11 @@ public class MessageItemViewModel extends ViewModel {
         messageResponse = new MutableLiveData<>();
     }
 
-    public LiveData<List<MessageItem>> getMessages() { return mRepository.getAll();}
+    public LiveData<List<MessageItem>> getMessages(String contactID) { return mRepository.getAll(contactID);}
 
-    public void delete(MessageItem message) { mRepository.delete(message);}
+    public void getMessagesFromAPI(String contactID) { mRepository.getMessagesFromAPI(contactID); }
 
-    public void getMessagesFromAPI() { mRepository.getMessagesFromAPI(); }
-
-    public void postTransferMessage(Transfer transfer, MessageItem messageItem) { mRepository.postTransferMessage(transfer, messageItem, messageResponse);  }
+    public void postTransferMessage(String contactID, Transfer transfer, MessageItem messageItem) { mRepository.postTransferMessage(contactID, transfer, messageItem, messageResponse);  }
 
     public MutableLiveData<Boolean> getMessageResponse() {
         return messageResponse;

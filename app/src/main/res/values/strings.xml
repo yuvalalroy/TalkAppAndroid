@@ -39,4 +39,7 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="userPsswordError">User does not exists or server is not responsive.</string>
+    <string name="containDots">Server should provide a port!</string>
+    <string name="serverHttp">Server should not contain http/s prefix!</string>
+    <string name="username">Username</string>
 </resources>

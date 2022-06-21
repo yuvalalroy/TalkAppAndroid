@@ -6,11 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.talkappandroid.R;
-import com.example.talkappandroid.TalkAppApplication;
 import com.example.talkappandroid.database.MessageItemDao;
 import com.example.talkappandroid.database.UserTokenDB;
-import com.example.talkappandroid.model.MessageContent;
 import com.example.talkappandroid.model.MessageItem;
 import com.example.talkappandroid.model.Transfer;
 import com.example.talkappandroid.repositories.MessageRepository;
@@ -33,7 +30,7 @@ public class MessageAPI {
     private MessageAPI() {
         this.messageListData = new MutableLiveData<>();
         retrofit = new Retrofit.Builder()
-                .baseUrl(TalkAppApplication.context.getString(R.string.BaseUrl))
+                .baseUrl(UserTokenDB.SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         messageServiceAPI = retrofit.create(MessageServiceAPI.class);
@@ -58,7 +55,7 @@ public class MessageAPI {
                         messageItems = new ArrayList<>();
                     else
                         messageItems = response.body();
-                    messageRepository.handleGetMessages(messageItems);
+                    messageRepository.handleGetMessages(messageItems, contactID);
                 }
             }
 

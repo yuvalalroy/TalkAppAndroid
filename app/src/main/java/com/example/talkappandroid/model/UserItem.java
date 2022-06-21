@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.talkappandroid.R;
+
 @Entity
 public class UserItem {
 
@@ -20,7 +22,7 @@ public class UserItem {
         this.userName = name;
         this.password = password;
         this.displayName = displayName;
-        this.profilePic = null;
+        this.profilePic = "drawable://" + R.drawable.ic_avatar;
     }
 
     public String getProfilePic() {

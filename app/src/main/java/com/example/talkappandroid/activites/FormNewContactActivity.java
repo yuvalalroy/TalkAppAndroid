@@ -140,19 +140,16 @@ public class FormNewContactActivity extends AppCompatActivity {
             if (contactName.isEmpty()) {
                 contactNameError = (TextView) findViewById(R.id.textViewContactNameError);
                 contactNameError.setVisibility(TextView.VISIBLE);
-//                Toast.makeText(Login.this, "Username is required!", Toast.LENGTH_SHORT).show();
             }
 
             if (contactDN.isEmpty()) {
                 contactDNError = (TextView) findViewById(R.id.textViewContactsDisplayNameError);
                 contactDNError.setVisibility(TextView.VISIBLE);
-//                Toast.makeText(Login.this, "Username is required!", Toast.LENGTH_SHORT).show();
             }
 
             if (contactServer.isEmpty()) {
                 contactServerError = (TextView) findViewById(R.id.textViewContactsServerError);
                 contactServerError.setVisibility(TextView.VISIBLE);
-//                Toast.makeText(Login.this, "Username is required!", Toast.LENGTH_SHORT).show();
             }
             return false;
         }

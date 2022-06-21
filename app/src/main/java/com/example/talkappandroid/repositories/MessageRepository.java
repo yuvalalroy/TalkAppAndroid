@@ -19,48 +19,36 @@ public class MessageRepository {
     private MessageAPI messageAPI;
     private MessageItemDao dao;
     private AppDB db;
-    private String currentContactId;
 
-    public MessageRepository(String id, MessageAPI messageAPI) {
+    public MessageRepository(MessageAPI messageAPI) {
         db = AppDB.getMessageDBInstance();
         dao = db.messageItemDao();
         this.messageAPI = messageAPI;
-        this.currentContactId = id;
-
     }
 
-    public void getMessagesFromAPI() {
-        messageAPI.getMessages(currentContactId,dao, this);
-    }
+    public void getMessagesFromAPI(String contactId) { messageAPI.getMessages(contactId,dao, this);}
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void handleGetMessages(List<MessageItem> messageItemsList) {
+    public void handleGetMessages(List<MessageItem> messageItemsList, String contactID) {
         messageItemsList.forEach((messageItem -> {
-            messageItem.setContactID(currentContactId);
+            messageItem.setContactID(contactID);
         }));
         new Thread(() -> {
-            dao.clear(currentContactId);
+            dao.clear(contactID);
             dao.insertAll(messageItemsList);
         }).start();
     }
 
-    public void postTransferMessage(final Transfer transfer,MessageItem messageItem, MutableLiveData<Boolean> response){
-        messageAPI.postTransferMessage(currentContactId, transfer,this, dao, messageItem, response);
+    public void postTransferMessage(String contactID, final Transfer transfer,MessageItem messageItem, MutableLiveData<Boolean> response){
+        messageAPI.postTransferMessage(contactID, transfer,this, dao, messageItem, response);
     }
 
-    public LiveData<List<MessageItem>> getAll() { return dao.getAllMessages(currentContactId);}
+    public LiveData<List<MessageItem>> getAll(String contactID) { return dao.getAllMessages(contactID);}
 
-    public void add(final MessageItem messageItem){
-        //api.add(contactItem);
+
+    public void pushMessageToDAO(MessageItem message) {
+        new Thread(() -> {
+            dao.insert(message);
+        }).start();
     }
-
-    public void delete(final MessageItem messageItem){
-        //api.delete(contactItem);
-    }
-
-    public void reload(){
-        //api.get();
-    }
-
-
 }

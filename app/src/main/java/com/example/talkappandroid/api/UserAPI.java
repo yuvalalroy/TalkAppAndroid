@@ -1,23 +1,14 @@
 package com.example.talkappandroid.api;
 
-import android.content.SharedPreferences;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.talkappandroid.R;
-import com.example.talkappandroid.TalkAppApplication;
-import com.example.talkappandroid.database.UserDao;
 import com.example.talkappandroid.database.UserTokenDB;
+import com.example.talkappandroid.utils.FirebaseToken;
 import com.example.talkappandroid.model.UserItem;
 import com.example.talkappandroid.model.UserLogin;
-import com.example.talkappandroid.model.UserRegister;
 import com.example.talkappandroid.model.UserToken;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,13 +21,13 @@ public class UserAPI {
     private Retrofit retrofit;
     private UserServiceAPI userServiceAPI;
     private UserTokenDB userTokenDB;
-    private static final String BASE_URL = "http://10.0.2.2:7201/api/";
+
 
 
 
     private UserAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(UserTokenDB.SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                         .setLenient()
                         .create()))
@@ -79,7 +70,6 @@ public class UserAPI {
                     if(UserTokenDB.checkIfExists(userToken.getToken())){
                         userTokenDB.insertToEditor(loginUser, userToken.getToken());
                     }
-                    UserTokenDB.setToken(userToken.getToken());
                     isLoggedIn.postValue(true);
                 } else {
                     isLoggedIn.postValue(false);
@@ -89,6 +79,19 @@ public class UserAPI {
             @Override
             public void onFailure(@NonNull Call<UserToken> call, @NonNull Throwable t) {
                 isLoggedIn.postValue(false);
+            }
+        });
+    }
+
+    public void notifyFirebaseToServer(FirebaseToken firebaseToken){
+        Call<Void> notifyCall = userServiceAPI.registerDevice("Bearer " + UserTokenDB.getToken(), firebaseToken);
+        notifyCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
             }
         });
     }

@@ -1,33 +1,44 @@
 package com.example.talkappandroid.activites;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.talkappandroid.R;
-import com.example.talkappandroid.activites.LoginActivity;
 import com.example.talkappandroid.database.AppDB;
-import com.example.talkappandroid.database.ContactItemDao;
 import com.example.talkappandroid.database.UserDao;
 import com.example.talkappandroid.database.UserTokenDB;
 import com.example.talkappandroid.model.UserItem;
-import com.example.talkappandroid.model.UserRegister;
 import com.example.talkappandroid.repositories.UserRepository;
+import com.example.talkappandroid.utils.FirebaseToken;
 import com.example.talkappandroid.viewModels.UserViewModel;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText eUsername, ePassword, eVerifyPassword, eDisplayName;
     private TextView usernameError, passwordError, verifyPasswordError, displayNameError;
+    private ActivityResultLauncher<Intent> resultLauncher;
     private Button btnSignUp, btnRegister;
+    private ImageView addPhotoImage;
+    private String image = null;
     private UserDao userDao;
 
     @Override
@@ -52,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
         ePassword = findViewById(R.id.editTextTextPassword);
         eVerifyPassword = findViewById(R.id.editTextTextVerifyPassword);
         eDisplayName = findViewById(R.id.editTextTextDisplayname);
+        addPhotoImage = findViewById(R.id.addPhoto);
     }
 
     private void setListeners(){
@@ -73,6 +85,12 @@ public class RegisterActivity extends AppCompatActivity {
                 userViewModel.register(userItem);
                 userViewModel.checkIfLoggedIn().observe(this, answer -> {
                     if (answer) {
+                        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(RegisterActivity.this, instanceIdResult -> {
+                            String token = instanceIdResult.getToken();
+                            FirebaseToken notificationToken = new FirebaseToken(token);
+                            userViewModel.notifyToken(notificationToken);
+                        });
+                        clearText();
                         Intent i = new Intent(this, LoginActivity.class);
                         startActivity(i);
                         finish();
@@ -83,7 +101,40 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        initLauncher();
+
+        addPhotoImage.setOnClickListener( view -> {
+                    Intent pickImageIntent = new Intent(Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    pickImageIntent.setType("image/*");
+                    resultLauncher.launch(pickImageIntent);
+                }
+        );
+
         removeErrors();
+
+    }
+
+    private void initLauncher() {
+        this.resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK && result.getData()!= null) {
+                Intent data = result.getData();
+                if(data.getData() != null) {
+                    Uri uri = (Uri) data.getData();
+                    Bitmap bitmap;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                        byte[] b = byteArrayOutputStream.toByteArray();
+                        this.image = Base64.encodeToString(b, Base64.DEFAULT);
+                    }
+                    catch(IOException e) {
+                        Toast.makeText(this,"Unable uploading image", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
     }
 
     private boolean validatePassword(String passwordField) {
@@ -211,5 +262,12 @@ public class RegisterActivity extends AppCompatActivity {
             displayNameError.setVisibility(TextView.INVISIBLE);
             verifyPasswordError.setVisibility(TextView.INVISIBLE);
         }
+    }
+
+    private void clearText() {
+        eUsername.setText("");
+        ePassword.setText("");
+        eVerifyPassword.setText("");
+        eDisplayName.setText("");
     }
 }

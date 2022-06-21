@@ -21,7 +21,7 @@ if you don't have an account - click "sign up" and you'll be transmitted to the 
 ### Register
 
 In this screen you'll have to enter register information such as User-name, Password, Display-name (nickname) and Profile picture.
-After you filled all the fields, click "Register" button and you will be able to start talking with your friends.
+After you filled all the fields, click "Register" button and you will be transmitted to Login screen to finally login.
 if you already have an account - click "sign in" and you'll be transmitted to the Login screen.
 
 ### Contacts

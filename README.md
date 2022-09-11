@@ -78,10 +78,10 @@ Setting Page:
 
 
 Main Chat:
-![image](https://user-images.githubusercontent.com/92247226/174891478-830648b2-b058-4225-8347-f7977f6a4f16.png)
+
 
 Inside Chat:
-![image](https://user-images.githubusercontent.com/92247226/174894915-bf26084e-c6e5-4984-8dd3-67a0fbefaa2d.png)
+
 
 ---
 

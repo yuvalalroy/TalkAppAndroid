@@ -90,6 +90,7 @@ Inside Chat:
  While loading the splash screen the application will contact the server requestion authentication of the privous session if still vaild.
  
  if one of the requirment wasn't met a coresponding error will be shown.
+ 
 ![RegisterWarningPage](https://user-images.githubusercontent.com/92422861/189528194-de943ec0-f506-4883-b4f5-9613395d88e0.png)
 
 
